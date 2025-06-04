@@ -15,6 +15,16 @@ class PrismInstance {
 
   late final mmcPackJsonFile = File(p.join(instanceDir.path, 'mmc-pack.json'));
   late var minecraftVersion = '';
+  late var modLoader = '';
+  late var modLoaderVersion = '';
+
+  /// Known mod loaders mapped from their cachedName to their display name.
+  static const _knownModLoaders = {
+    'NeoForge': 'NeoForge',
+    'Fabric Loader': 'Fabric',
+    'Forge': 'Forge',
+    'Quilt': 'Quilt',
+  };
 
   PrismInstance._(this.instanceDir);
   static Future<PrismInstance> fromDirectory(Directory instanceDir) async {
@@ -45,9 +55,13 @@ class PrismInstance {
       for (final JsonMap component in components) {
         final cachedName = component['cachedName'] as String?;
         final cachedVersion = component['cachedVersion'] as String?;
-        if (cachedName == 'minecraft') {
+        print('Found component: $cachedName, version: $cachedVersion');
+
+        if (cachedName == 'Minecraft') {
           instance.minecraftVersion = cachedVersion ?? '';
-          break;
+        } else if (_knownModLoaders.containsKey(cachedName)) {
+          instance.modLoader = _knownModLoaders[cachedName]!;
+          instance.modLoaderVersion = cachedVersion ?? '';
         }
       }
     }

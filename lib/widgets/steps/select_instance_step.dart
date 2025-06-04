@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:installer/compute/prism_instance.dart';
 import 'package:installer/compute/prism_launcher.dart';
+import 'package:installer/widgets/minecraft_instance_card.dart';
 import 'package:nes_ui/nes_ui.dart';
 
 class SelectInstanceStep extends StatefulWidget {
@@ -65,11 +66,9 @@ class _Success extends StatelessWidget {
         const SizedBox(height: 8),
         NesPressable(
           onPress: deselect,
-          child: Text(
-            selectedInstance.cfgName,
-            style: TextTheme.of(context).bodyMedium,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          child: SizedBox(
+            width: double.infinity,
+            child: MinecraftInstanceCard(instance: selectedInstance),
           ),
         ),
       ],
@@ -102,27 +101,21 @@ class _Choose extends StatelessWidget {
             style: TextTheme.of(context).bodyMedium,
           )
         else
-          for (final instance in instances)
-            _InstanceButton(instance: instance, select: select),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final instance in instances)
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width / 2 - 20,
+                  child: NesPressable(
+                    onPress: () => select(instance),
+                    child: MinecraftInstanceCard(instance: instance),
+                  ),
+                ),
+            ],
+          ),
       ],
-    );
-  }
-}
-
-class _InstanceButton extends StatelessWidget {
-  const _InstanceButton({required this.instance, required this.select});
-  final PrismInstance instance;
-  final void Function(PrismInstance instance) select;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: NesButton(
-        type: NesButtonType.normal,
-        onPressed: () => select(instance),
-        child: Text(instance.cfgName),
-      ),
     );
   }
 }

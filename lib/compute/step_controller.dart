@@ -24,7 +24,7 @@ final class StepController extends ChangeNotifier {
 
     if (delayNext) {
       if (_nextStepTimer?.isActive ?? false) return;
-      _nextStepTimer = Timer(const Duration(milliseconds: 1000), _goToNextStep);
+      _nextStepTimer = Timer(const Duration(milliseconds: 300), _goToNextStep);
     } else {
       _goToNextStep();
     }
