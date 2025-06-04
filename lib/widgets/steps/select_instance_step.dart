@@ -47,6 +47,7 @@ class _Success extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          spacing: 8,
           children: [
             Flexible(
               child: Text(
@@ -101,19 +102,25 @@ class _Choose extends StatelessWidget {
             style: TextTheme.of(context).bodyMedium,
           )
         else
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              for (final instance in instances)
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width / 2 - 20,
-                  child: NesPressable(
-                    onPress: () => select(instance),
-                    child: MinecraftInstanceCard(instance: instance),
-                  ),
-                ),
-            ],
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final instance in instances)
+                    SizedBox(
+                      width: constraints.maxWidth < 400
+                          ? double.infinity
+                          : constraints.maxWidth / 2 - 8,
+                      child: NesPressable(
+                        onPress: () => select(instance),
+                        child: MinecraftInstanceCard(instance: instance),
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
       ],
     );
