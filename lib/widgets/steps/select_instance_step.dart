@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide Step;
 import 'package:installer/compute/prism_instance.dart';
 import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/compute/step_controller.dart';
+import 'package:installer/util/switcher_layout_builder.dart';
 import 'package:installer/widgets/minecraft_instance_card.dart';
 import 'package:nes_ui/nes_ui.dart';
 
@@ -16,7 +17,7 @@ class _SelectInstanceStepState extends State<SelectInstanceStep> {
   void _select(PrismInstance instance) {
     print('SelectInstanceStep: selected `${instance.cfgName}`');
     PrismLauncher.selectedInstance = instance;
-    stepController.markStepComplete(Step.selectInstance, delayNext: false);
+    stepController.markStepComplete(Step.selectInstance);
     if (mounted) setState(() {});
   }
 
@@ -31,6 +32,16 @@ class _SelectInstanceStepState extends State<SelectInstanceStep> {
 
   @override
   Widget build(BuildContext context) {
+    final child = _unanimatedBuild(context);
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      switchInCurve: Curves.easeOut,
+      layoutBuilder: topLeftLayoutBuilder,
+      child: child,
+    );
+  }
+
+  Widget _unanimatedBuild(BuildContext context) {
     final selectedInstance = PrismLauncher.selectedInstance;
     if (selectedInstance != null) {
       stepController.markStepComplete(Step.selectInstance);

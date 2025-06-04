@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart' hide Step;
 import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/compute/step_controller.dart';
+import 'package:installer/util/switcher_layout_builder.dart';
 import 'package:nes_ui/nes_ui.dart';
 
 class SelectModpackStep extends StatelessWidget {
-  SelectModpackStep({super.key}) {
-    if (modpackUrl.value == null) _findInitialModpackUrl();
-  }
+  const SelectModpackStep({super.key});
 
   static final modpackUrl = ValueNotifier<Uri?>(null);
-  void _findInitialModpackUrl() {
+  static void _findInitialModpackUrl() {
     final uri = tryParse(PrismLauncher.selectedInstance?.cfgManagedPackID);
     if (uri == null) return;
     modpackUrl.value = uri;
@@ -26,12 +25,16 @@ class SelectModpackStep extends StatelessWidget {
   void _select(Uri modpackUrl) {
     print('SelectModpackStep: selected `$modpackUrl`');
     SelectModpackStep.modpackUrl.value = modpackUrl;
-    stepController.markStepComplete(Step.selectModpack, delayNext: false);
+    stepController.markStepComplete(Step.selectModpack);
   }
 
   void _deselect() {
     print('SelectModpackStep: deselected `${modpackUrl.value}`');
-    SelectModpackStep.modpackUrl.value = null;
+    if (SelectModpackStep.modpackUrl.value != null) {
+      _ChooseModpackState._lastInput = SelectModpackStep.modpackUrl.value!
+          .toString();
+      SelectModpackStep.modpackUrl.value = null;
+    }
     stepController.goBackToStep(Step.selectModpack);
   }
 
@@ -39,14 +42,29 @@ class SelectModpackStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: modpackUrl,
-      builder: (context, modpackUrl, child) {
-        if (modpackUrl == null) {
-          return _ChooseModpack(select: _select);
-        } else {
-          return _Success(modpackUrl, deselect: _deselect);
-        }
+      builder: (context, modpackUrl, _) {
+        final child = _unanimatedBuild(context, modpackUrl);
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeOut,
+          layoutBuilder: topLeftLayoutBuilder,
+          child: SizedBox(
+            key: ValueKey(child),
+            width: double.infinity,
+            child: child,
+          ),
+        );
       },
     );
+  }
+
+  Widget _unanimatedBuild(BuildContext context, Uri? modpackUrl) {
+    if (modpackUrl == null) {
+      return _ChooseModpack(select: _select);
+    } else {
+      stepController.markStepComplete(Step.selectModpack);
+      return _Success(modpackUrl, deselect: _deselect);
+    }
   }
 }
 
@@ -114,8 +132,9 @@ class _ChooseModpack extends StatefulWidget {
 class _ChooseModpackState extends State<_ChooseModpack> {
   late final _formKey = GlobalKey<FormState>();
   late final _urlFieldController = TextEditingController(
-    text: SelectModpackStep.modpackUrl.value?.toString() ?? '',
+    text: SelectModpackStep.modpackUrl.value?.toString() ?? _lastInput,
   );
+  static String? _lastInput;
 
   void trySelect(BuildContext context, String input) {
     final uri = SelectModpackStep.tryParse(input.trim());
@@ -126,6 +145,12 @@ class _ChooseModpackState extends State<_ChooseModpack> {
         context,
       ).showSnackBar(SnackBar(content: Text('Invalid URL: $input')));
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SelectModpackStep._findInitialModpackUrl();
   }
 
   @override
@@ -147,6 +172,7 @@ class _ChooseModpackState extends State<_ChooseModpack> {
             validator: (value) => SelectModpackStep.tryParse(value) == null
                 ? 'Invalid URL'
                 : null,
+            onChanged: (value) => _lastInput = value.trim(),
           ),
           const SizedBox(height: 8),
           Align(
@@ -158,7 +184,7 @@ class _ChooseModpackState extends State<_ChooseModpack> {
                   trySelect(context, _urlFieldController.text);
                 }
               },
-              child: Text('Select Modpack'),
+              child: Text('Download'),
             ),
           ),
         ],

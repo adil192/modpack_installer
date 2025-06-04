@@ -29,7 +29,7 @@ final class StepController extends ChangeNotifier {
     if (step > current) return; // Cannot go back to a future step
     if (step == current) return; // Nothing to do
 
-    if (!previous.contains(step)) {
+    if (kDebugMode && !previous.contains(step)) {
       // In case this is a conditional step that was never reached
       throw ArgumentError(
         'Cannot go back to step $step, it is not in the previous steps.',
@@ -59,7 +59,8 @@ enum Step {
   welcome(next: Step.findPrismLauncher),
   findPrismLauncher(next: Step.selectInstance),
   selectInstance(next: Step.selectModpack),
-  selectModpack(next: Step.install),
+  selectModpack(next: Step.download),
+  download(next: Step.install),
   install(next: null);
 
   const Step({required this.next});
