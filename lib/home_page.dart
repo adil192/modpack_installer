@@ -35,14 +35,23 @@ class HomePage extends StatelessWidget {
 
   @visibleForTesting
   Iterable<Widget> getChildren(BuildContext context, List<Step> steps) sync* {
-    for (final step in steps) {
+    for (final step in Step.values) {
       switch (step) {
         case Step.welcome:
-          yield const _ConstrainedStep(child: WelcomeStep());
+          yield _ConstrainedStep(
+            show: steps.contains(Step.welcome),
+            child: WelcomeStep(),
+          );
         case Step.findPrismLauncher:
-          yield const _ConstrainedStep(child: FindPrismLauncherStep());
+          yield _ConstrainedStep(
+            show: steps.contains(Step.findPrismLauncher),
+            child: FindPrismLauncherStep(),
+          );
         case Step.selectModpack:
-          yield const _ConstrainedStep(child: SelectInstanceStep());
+          yield _ConstrainedStep(
+            show: steps.contains(Step.selectModpack),
+            child: SelectInstanceStep(),
+          );
       }
     }
   }
@@ -50,16 +59,25 @@ class HomePage extends StatelessWidget {
 
 /// Sets the size and spacing of its child.
 class _ConstrainedStep extends StatelessWidget {
-  const _ConstrainedStep({required this.child});
+  const _ConstrainedStep({required this.show, required this.child});
+  final bool show;
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 32),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: SizedBox(width: double.infinity, child: child),
-      ),
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOut,
+      opacity: show ? 1 : 0,
+      child: show
+          ? SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: child,
+              ),
+            )
+          : SizedBox(width: double.infinity, height: 1),
     );
   }
 }
