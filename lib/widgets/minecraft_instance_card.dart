@@ -49,7 +49,6 @@ class MinecraftInstanceCard extends StatelessWidget {
     final primaryIndex = (hash % primaries.length).toInt();
     final primaryColor = primaries[primaryIndex];
     final firstColor = Color.lerp(background, primaryColor, 0.1)!;
-    final middleColor = Color.lerp(background, Colors.white, 0.2)!;
 
     final halfHash = hash / 2;
     final accents = Colors.accents;
@@ -57,7 +56,7 @@ class MinecraftInstanceCard extends StatelessWidget {
     final accentColor = accents[accentIndex];
     final lastColor = Color.lerp(background, accentColor, 0.15)!;
 
-    return [firstColor, middleColor, lastColor];
+    return [firstColor, background, lastColor];
   }
 }
 
@@ -68,9 +67,14 @@ class _ComponentChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = ColorScheme.of(context);
     return NesContainer(
-      backgroundColor: Colors.white.withValues(alpha: 0.7),
-      borderColor: Color.lerp(Colors.black, borderColor, 0.9)!,
+      backgroundColor: Color.lerp(
+        colorScheme.inverseSurface,
+        colorScheme.surfaceContainerLowest,
+        0.95,
+      )!,
+      borderColor: Color.lerp(colorScheme.inverseSurface, borderColor, 0.8)!,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Text(component, style: TextTheme.of(context).bodyMedium),
     );
