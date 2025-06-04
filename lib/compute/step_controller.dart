@@ -15,12 +15,7 @@ final class StepController extends ChangeNotifier {
 
   Timer? _nextStepTimer;
   void markStepComplete(Step step, {bool delayNext = true}) {
-    if (current > step) return;
-    if (current < step) {
-      throw StateError(
-        'Cannot mark step $step as complete, current step is $_current',
-      );
-    }
+    if (current != step) return;
 
     if (delayNext) {
       if (_nextStepTimer?.isActive ?? false) return;
@@ -28,6 +23,23 @@ final class StepController extends ChangeNotifier {
     } else {
       _goToNextStep();
     }
+  }
+
+  void goBackToStep(Step step) {
+    if (step > current) return; // Cannot go back to a future step
+    if (step == current) return; // Nothing to do
+
+    if (!previous.contains(step)) {
+      // In case this is a conditional step that was never reached
+      throw ArgumentError(
+        'Cannot go back to step $step, it is not in the previous steps.',
+      );
+    }
+
+    _nextStepTimer?.cancel();
+    _current = step;
+    previous.removeWhere((s) => s > step); // Remove all steps after `step`
+    notifyListeners();
   }
 
   void _goToNextStep() {
@@ -46,7 +58,9 @@ final class StepController extends ChangeNotifier {
 enum Step {
   welcome(next: Step.findPrismLauncher),
   findPrismLauncher(next: Step.selectInstance),
-  selectInstance(next: null);
+  selectInstance(next: Step.selectModpack),
+  selectModpack(next: Step.install),
+  install(next: null);
 
   const Step({required this.next});
   final Step? next;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide Step;
 import 'package:installer/compute/step_controller.dart';
 import 'package:installer/widgets/steps/find_prism_launcher_step.dart';
 import 'package:installer/widgets/steps/select_instance_step.dart';
+import 'package:installer/widgets/steps/select_modpack_step.dart';
 import 'package:installer/widgets/steps/welcome_step.dart';
 
 class HomePage extends StatelessWidget {
@@ -51,6 +52,19 @@ class HomePage extends StatelessWidget {
           yield _ConstrainedStep(
             show: steps.contains(Step.selectInstance),
             child: SelectInstanceStep(),
+          );
+        case Step.selectModpack:
+          yield _ConstrainedStep(
+            show: steps.contains(Step.selectModpack),
+            child: SelectModpackStep(),
+          );
+        case Step.install:
+          yield _ConstrainedStep(
+            show: steps.contains(Step.install),
+            child: Text(
+              'TODO: Install Step',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           );
       }
     }

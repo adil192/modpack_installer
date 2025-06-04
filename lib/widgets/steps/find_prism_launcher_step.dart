@@ -32,7 +32,7 @@ class _Success extends StatelessWidget {
       children: [
         Text(
           'Located Prism Launcher!',
-          style: TextTheme.of(context).titleLarge,
+          style: TextTheme.of(context).headlineSmall,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
@@ -71,7 +71,7 @@ class _Error extends StatelessWidget {
       children: [
         Text(
           'Couldn\'t find Prism Launcher',
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),

@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Step;
 import 'package:installer/compute/prism_instance.dart';
 import 'package:installer/compute/prism_launcher.dart';
+import 'package:installer/compute/step_controller.dart';
 import 'package:installer/widgets/minecraft_instance_card.dart';
 import 'package:nes_ui/nes_ui.dart';
 
@@ -13,14 +14,18 @@ class SelectInstanceStep extends StatefulWidget {
 
 class _SelectInstanceStepState extends State<SelectInstanceStep> {
   void _select(PrismInstance instance) {
-    print('Selected instance: ${instance.cfgName}');
+    print('SelectInstanceStep: selected `${instance.cfgName}`');
     PrismLauncher.selectedInstance = instance;
+    stepController.markStepComplete(Step.selectInstance, delayNext: false);
     if (mounted) setState(() {});
   }
 
   void _deselect() {
-    print('Deselected instance: ${PrismLauncher.selectedInstance?.cfgName}');
+    print(
+      'SelectInstanceStep: deselected `${PrismLauncher.selectedInstance?.cfgName}`',
+    );
     PrismLauncher.selectedInstance = null;
+    stepController.goBackToStep(Step.selectInstance);
     if (mounted) setState(() {});
   }
 
@@ -28,6 +33,7 @@ class _SelectInstanceStepState extends State<SelectInstanceStep> {
   Widget build(BuildContext context) {
     final selectedInstance = PrismLauncher.selectedInstance;
     if (selectedInstance != null) {
+      stepController.markStepComplete(Step.selectInstance);
       return _Success(selectedInstance, deselect: _deselect);
     }
 
@@ -52,7 +58,7 @@ class _Success extends StatelessWidget {
             Flexible(
               child: Text(
                 'Selected instance!',
-                style: TextTheme.of(context).titleLarge,
+                style: TextTheme.of(context).headlineSmall,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -90,13 +96,14 @@ class _Choose extends StatelessWidget {
       children: [
         Text(
           'Select an instance',
-          style: TextTheme.of(context).titleLarge,
+          style: TextTheme.of(context).headlineSmall,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
         if (instances == null)
           NesPixelRowLoadingIndicator()
         else if (instances.isEmpty)
+          // TODO: Create an instance here
           Text(
             'No instances found. Please create one in Prism Launcher.',
             style: TextTheme.of(context).bodyMedium,
