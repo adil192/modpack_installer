@@ -55,7 +55,6 @@ class PrismInstance {
       for (final JsonMap component in components) {
         final cachedName = component['cachedName'] as String?;
         final cachedVersion = component['cachedVersion'] as String?;
-        print('Found component: $cachedName, version: $cachedVersion');
 
         if (cachedName == 'Minecraft') {
           instance.minecraftVersion = cachedVersion ?? '';

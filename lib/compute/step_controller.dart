@@ -45,8 +45,8 @@ final class StepController extends ChangeNotifier {
 
 enum Step {
   welcome(next: Step.findPrismLauncher),
-  findPrismLauncher(next: Step.selectModpack),
-  selectModpack(next: null);
+  findPrismLauncher(next: Step.selectInstance),
+  selectInstance(next: null);
 
   const Step({required this.next});
   final Step? next;

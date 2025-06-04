@@ -47,9 +47,9 @@ class HomePage extends StatelessWidget {
             show: steps.contains(Step.findPrismLauncher),
             child: FindPrismLauncherStep(),
           );
-        case Step.selectModpack:
+        case Step.selectInstance:
           yield _ConstrainedStep(
-            show: steps.contains(Step.selectModpack),
+            show: steps.contains(Step.selectInstance),
             child: SelectInstanceStep(),
           );
       }
