@@ -25,6 +25,7 @@ class Installer extends ChangeNotifier {
 
     try {
       await _install();
+      await Future.delayed(const Duration(seconds: 1));
     } finally {
       isInstalling = false;
       notifyListeners();

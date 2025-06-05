@@ -110,7 +110,9 @@ class _InstallStepState extends State<InstallStep> {
                     onPressed: installer.isInstalling
                         ? null
                         : installer.startInstall,
-                    child: const Text('Install Modpack'),
+                    child: installer.isInstalling
+                        ? const Text('Installing...')
+                        : const Text('Install Modpack'),
                   ),
                 ),
                 ConstrainedBox(
