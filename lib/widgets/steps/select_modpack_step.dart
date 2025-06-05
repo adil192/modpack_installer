@@ -22,13 +22,13 @@ class SelectModpackStep extends StatelessWidget {
     return Uri.tryParse(input);
   }
 
-  void _select(Uri modpackUrl) {
+  static void _select(Uri modpackUrl) {
     print('SelectModpackStep: selected `$modpackUrl`');
     SelectModpackStep.modpackUrl.value = modpackUrl;
     stepController.markStepComplete(Step.selectModpack);
   }
 
-  void _deselect() {
+  static void deselect() {
     print('SelectModpackStep: deselected `${modpackUrl.value}`');
     if (SelectModpackStep.modpackUrl.value != null) {
       _ChooseModpackState._lastInput = SelectModpackStep.modpackUrl.value!
@@ -63,7 +63,7 @@ class SelectModpackStep extends StatelessWidget {
       return _ChooseModpack(select: _select);
     } else {
       stepController.markStepComplete(Step.selectModpack);
-      return _Success(modpackUrl, deselect: _deselect);
+      return _Success(modpackUrl, deselect: deselect);
     }
   }
 }
