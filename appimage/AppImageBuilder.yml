@@ -1,0 +1,49 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+version: 1
+AppDir:
+  path: /home/ahann/Documents/GitHub/installer/appimage/AppDir
+  app_info:
+    id: com.adil192modpacks.installer
+    name: adil192's modpack installer
+    icon: application-vnd.appimage
+    version: latest
+    exec: installer
+    exec_args: $@
+  apt:
+    arch:
+    - amd64
+    sources:
+    - sourceline: deb https://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse
+    - sourceline: deb https://archive.ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse
+    - sourceline: deb https://archive.ubuntu.com/ubuntu/ noble-backports main restricted universe multiverse
+    - sourceline: deb https://security.ubuntu.com/ubuntu noble-security main restricted universe multiverse
+    include:
+    - libgtk-3-0
+    - zenity
+  files:
+    include: []
+    exclude:
+    - usr/share/man
+    - usr/share/doc/*/README.*
+    - usr/share/doc/*/changelog.*
+    - usr/share/doc/*/NEWS.*
+    - usr/share/doc/*/TODO.*
+  test:
+    fedora-30:
+      image: appimagecrafters/tests-env:fedora-30
+      command: ./AppRun
+    debian-stable:
+      image: appimagecrafters/tests-env:debian-stable
+      command: ./AppRun
+    archlinux-latest:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: ./AppRun
+    centos-7:
+      image: appimagecrafters/tests-env:centos-7
+      command: ./AppRun
+    ubuntu-xenial:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: ./AppRun
+AppImage:
+  arch: x86_64
+  update-information: guess
