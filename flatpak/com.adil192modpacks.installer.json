@@ -1,0 +1,35 @@
+{
+  "app-id": "com.adil192modpacks.installer",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "24.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "installer",
+  "separate-locales": false,
+  "finish-args": [
+    "--share=network",
+    "--share=ipc",
+    "--socket=fallback-x11",
+    "--socket=wayland",
+    "--device=dri"
+  ],
+  "modules": [
+    {
+      "name": "installer",
+      "buildsystem": "simple",
+      "only-arches": ["x86_64"],
+      "build-commands": [
+        "mkdir -p /app/",
+        "tar -xf modpack_installer.tar.gz -C /app/",
+
+        "mkdir -p /app/bin/",
+        "ln -s -t /app/bin/ /app/installer"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "path": "../modpack_installer.tar.gz"
+        }
+      ]
+    }
+  ]
+}
