@@ -12,11 +12,12 @@ AppDir:
   apt:
     arch:
     - amd64
+    allow_unauthenticated: true
     sources:
-    - sourceline: deb https://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse
-    - sourceline: deb https://archive.ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse
-    - sourceline: deb https://archive.ubuntu.com/ubuntu/ noble-backports main restricted universe multiverse
-    - sourceline: deb https://security.ubuntu.com/ubuntu noble-security main restricted universe multiverse
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ noble-backports main restricted universe multiverse
+    - sourceline: deb http://security.ubuntu.com/ubuntu noble-security main restricted universe multiverse
     include:
     - libgtk-3-0
     - zenity
