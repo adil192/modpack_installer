@@ -50,8 +50,9 @@ class _DownloadStepState extends State<DownloadStep> {
     final status = Downloader.status.value;
     final progress = Downloader.progress.value;
 
-    final complete = status == TaskStatus.complete;
-    if (complete) {
+    final finishedDownloading = status == TaskStatus.complete;
+    final finishedExtracting = finishedDownloading && Downloader.hasExtracted;
+    if (finishedExtracting) {
       stepController.markStepComplete(Step.download);
     }
 
@@ -59,7 +60,11 @@ class _DownloadStepState extends State<DownloadStep> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          complete ? 'Downloaded!' : 'Downloading...',
+          finishedExtracting
+              ? 'Downloaded!'
+              : finishedDownloading
+              ? 'Extracting...'
+              : 'Downloading...',
           style: TextTheme.of(context).headlineSmall,
           textAlign: TextAlign.center,
         ),
@@ -92,7 +97,7 @@ class _DownloadStepState extends State<DownloadStep> {
           value: progress?.progress ?? 0,
           label: 'Download Progress',
         ),
-        if (!complete && status.isFinalState) ...[
+        if (!finishedDownloading && status.isFinalState) ...[
           const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,

@@ -4,6 +4,7 @@ import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/compute/step_controller.dart';
 import 'package:installer/util/switcher_layout_builder.dart';
 import 'package:installer/widgets/minecraft_instance_card.dart';
+import 'package:installer/widgets/steps/select_modpack_step.dart';
 import 'package:nes_ui/nes_ui.dart';
 
 class SelectInstanceStep extends StatefulWidget {
@@ -26,6 +27,7 @@ class _SelectInstanceStepState extends State<SelectInstanceStep> {
       'SelectInstanceStep: deselected `${PrismLauncher.selectedInstance?.cfgName}`',
     );
     PrismLauncher.selectedInstance = null;
+    SelectModpackStep.deselect();
     stepController.goBackToStep(Step.selectInstance);
     if (mounted) setState(() {});
   }

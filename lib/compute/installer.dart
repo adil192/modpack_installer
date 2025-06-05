@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-abstract class Installer extends ChangeNotifier {
-  /// 
-  var downloadProgress = 0;
+class Installer {
+  Installer({required this.extractedModpackDir, required this.instanceDir});
+
+  final Directory extractedModpackDir;
+  final Directory instanceDir;
 }
