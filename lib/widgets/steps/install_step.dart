@@ -114,25 +114,28 @@ class _InstallStepState extends State<InstallStep> {
                   ),
                 ),
                 ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    minHeight: 200,
+                  constraints: BoxConstraints(
+                    minHeight: installer.log.isEmpty ? 0 : 200,
                     maxHeight: 400,
                   ),
                   child: AnimatedSize(
                     duration: const Duration(milliseconds: 300),
+                    alignment: Alignment.topCenter,
                     child: installer.log.isEmpty
-                        ? const SizedBox.shrink()
+                        ? const SizedBox(width: double.infinity)
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: NesContainer(
                               label: 'Log',
                               child: ListView.builder(
+                                reverse: true,
                                 itemCount: installer.log.length,
                                 itemBuilder: (context, index) {
                                   if (index >= installer.log.length) {
                                     return null;
                                   }
-                                  final logEntry = installer.log[index];
+                                  final logEntry = installer
+                                      .log[installer.log.length - 1 - index];
                                   return Text(
                                     logEntry,
                                     style: TextTheme.of(context).bodyMedium,
