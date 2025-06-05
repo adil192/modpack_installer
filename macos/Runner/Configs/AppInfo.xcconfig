@@ -8,7 +8,7 @@
 PRODUCT_NAME = installer
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.installer
+PRODUCT_BUNDLE_IDENTIFIER = com.adil192modpacks.installer
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2025 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2025 com.adil192modpacks. All rights reserved.
