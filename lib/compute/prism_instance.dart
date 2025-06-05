@@ -93,6 +93,14 @@ class PrismInstance {
 
     instance.generateColors();
 
+    print(
+      '${instance.cfgName} instance found: '
+      'ExportVersion=${instance.cfgExportVersion}, '
+      'ManagedPackID=${instance.cfgManagedPackID}, '
+      'Minecraft=${instance.minecraftVersion}, '
+      'ModLoader=${instance.modLoader} ${instance.modLoaderVersion}',
+    );
+
     return instance;
   }
 }
