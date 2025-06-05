@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.adil192modpacks.installer</id>
+  
+  <name>adil192&apos;s modpack installer</name>
+  <summary>Update and install your modpacks!</summary>
+  
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  
+  <description>
+    <p>
+      Update and install your modpacks! Unofficial companion app for Prism Launcher
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">com.adil192modpacks.installer.desktop</launchable>
+</component>

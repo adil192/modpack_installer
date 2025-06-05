@@ -44,6 +44,16 @@ jobs:
           mkdir -p AppDir
           mv build/linux/x64/release/bundle/* AppDir
           chmod +x AppDir/installer
+
+          install -Dm644 flatpak/com.adil192modpacks.installer.metainfo.xml -t AppDir/share/metainfo/
+          install -Dm644 flatpak/com.adil192modpacks.installer.metainfo.xml -t AppDir/usr/share/metainfo/
+
+          mkdir -p AppDir/usr/share/icons/hicolor/512x512/apps
+          install -Dm644 assets/icon.png AppDir/share/icons/hicolor/512x512/apps/com.adil192modpacks.installer.png
+          install -Dm644 assets/icon.png AppDir/usr/share/icons/hicolor/512x512/apps/com.adil192modpacks.installer.png
+
+          install -Dm644 flatpak/com.adil192modpacks.installer.desktop -t AppDir/share/applications/
+
           tar -C AppDir -cvf modpack_installer.tar.gz .
 
       - name: Upload build artifact

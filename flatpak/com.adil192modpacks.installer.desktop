@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=adil192's modpack installer
+Comment=Update and install your modpacks!
+Categories=Utility;Compression;
+
+Icon=com.adil192modpacks.installer
+Exec=installer
+Terminal=false
