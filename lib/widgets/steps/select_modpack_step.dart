@@ -11,7 +11,7 @@ class SelectModpackStep extends StatelessWidget {
   static void _findInitialModpackUrl() {
     final uri = tryParse(PrismLauncher.selectedInstance?.cfgManagedPackID);
     if (uri == null) return;
-    modpackUrl.value = uri;
+    _ChooseModpackState._lastInput = uri.toString();
     print('SelectModpackStep: Found initial modpack URL: $uri');
   }
 
@@ -148,8 +148,8 @@ class _ChooseModpackState extends State<_ChooseModpack> {
   }
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     SelectModpackStep._findInitialModpackUrl();
   }
 
