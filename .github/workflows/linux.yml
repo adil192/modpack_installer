@@ -51,9 +51,12 @@ jobs:
         with:
           name: modpack_installer-linux-bin
           path: modpack_installer.tar.gz
-      
-      - name: Install flatpak dependencies
-        run: flatpak install -y org.freedesktop.Sdk//24.08 org.freedesktop.Platform//24.08
+
+      - name: Initialize flatpak
+        run: |
+          sudo flatpak repair
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak install -y org.freedesktop.Sdk//24.08 org.freedesktop.Platform//24.08
 
       - name: Build flatpak
         working-directory: flatpak
