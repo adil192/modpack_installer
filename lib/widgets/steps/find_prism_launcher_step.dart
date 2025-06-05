@@ -13,7 +13,7 @@ class FindPrismLauncherStep extends StatelessWidget {
     final prismDir = PrismLauncher.prismDir;
 
     if (prismDir.hasError) {
-      return _Error(prismDir);
+      return _Error(prismDir.error);
     } else {
       stepController.markStepComplete(Step.findPrismLauncher);
       return _Success(prismDir.value!);
@@ -62,7 +62,7 @@ class _Success extends StatelessWidget {
 
 class _Error extends StatelessWidget {
   const _Error(this.error);
-  final Object error;
+  final dynamic error;
 
   @override
   Widget build(BuildContext context) {
