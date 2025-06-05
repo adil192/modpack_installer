@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 
 typedef JsonMap = Map<String, dynamic>;
@@ -17,6 +18,31 @@ class PrismInstance {
   late var minecraftVersion = '';
   late var modLoader = '';
   late var modLoaderVersion = '';
+
+  var primaryColorLight = Colors.transparent;
+  var primaryColorDark = Colors.transparent;
+  var secondaryColorLight = Colors.transparent;
+  var secondaryColorDark = Colors.transparent;
+
+  void generateColors() {
+    final primaryTint = _genTintFromHash(
+      cfgName.hashCode ^ cfgExportVersion.hashCode ^ cfgManagedPackID.hashCode,
+      Colors.primaries,
+    );
+    final secondaryTint = _genTintFromHash(
+      cfgName.hashCode ^ minecraftVersion.hashCode ^ modLoaderVersion.hashCode,
+      Colors.accents,
+    );
+    primaryColorLight = Color.lerp(Colors.white, primaryTint, 0.1)!;
+    primaryColorDark = Color.lerp(Colors.black, primaryTint, 0.1)!;
+    secondaryColorLight = Color.lerp(Colors.white, secondaryTint, 0.15)!;
+    secondaryColorDark = Color.lerp(Colors.black, secondaryTint, 0.15)!;
+  }
+
+  Color _genTintFromHash(int hash, List<Color> colors) {
+    final index = (hash % colors.length).toInt();
+    return colors[index];
+  }
 
   /// Known mod loaders mapped from their cachedName to their display name.
   static const _knownModLoaders = {
@@ -64,6 +90,8 @@ class PrismInstance {
         }
       }
     }
+
+    instance.generateColors();
 
     return instance;
   }

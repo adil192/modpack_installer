@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:installer/compute/prism_instance.dart';
 
 class Installer {
-  Installer({required this.extractedModpackDir, required this.instanceDir});
+  Installer({required this.instance, required this.modpackDir});
 
-  final Directory extractedModpackDir;
-  final Directory instanceDir;
+  final PrismInstance instance;
+  final Directory modpackDir;
 }

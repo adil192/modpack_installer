@@ -10,14 +10,24 @@ class MinecraftInstanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gradient = cardGradientFromName(
-      instance.cfgName,
-      ColorScheme.of(context).surface,
-    );
+    final brightness = Theme.of(context).brightness;
+    final colorScheme = ColorScheme.of(context);
+
+    final primaryColor = brightness == Brightness.light
+        ? instance.primaryColorLight
+        : instance.primaryColorDark;
+    final secondaryColor = brightness == Brightness.light
+        ? instance.secondaryColorLight
+        : instance.secondaryColorDark;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: gradient,
+          colors: [
+            primaryColor,
+            colorScheme.surfaceContainerLowest,
+            secondaryColor,
+          ],
           transform: GradientRotation(pi * 0.4),
         ),
         borderRadius: BorderRadius.circular(16),
@@ -33,30 +43,14 @@ class MinecraftInstanceCard extends StatelessWidget {
             if (instance.minecraftVersion.isNotEmpty)
               _ComponentChip(
                 instance.minecraftVersion,
-                borderColor: gradient.first,
+                borderColor: primaryColor,
               ),
             if (instance.modLoader.isNotEmpty)
-              _ComponentChip(instance.modLoader, borderColor: gradient.first),
+              _ComponentChip(instance.modLoader, borderColor: primaryColor),
           ],
         ),
       ),
     );
-  }
-
-  static List<Color> cardGradientFromName(String name, Color background) {
-    final hash = name.hashCode;
-    final primaries = Colors.primaries;
-    final primaryIndex = (hash % primaries.length).toInt();
-    final primaryColor = primaries[primaryIndex];
-    final firstColor = Color.lerp(background, primaryColor, 0.1)!;
-
-    final halfHash = hash / 2;
-    final accents = Colors.accents;
-    final accentIndex = (halfHash % accents.length).toInt();
-    final accentColor = accents[accentIndex];
-    final lastColor = Color.lerp(background, accentColor, 0.15)!;
-
-    return [firstColor, background, lastColor];
   }
 }
 
