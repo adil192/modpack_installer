@@ -46,7 +46,7 @@ jobs:
       - name: Create final SFX executable
         shell: cmd
         run: |
-          copy /b "C:\Program Files\7-Zip\7zS.sfx" + windows/config.txt + app.7z modpack_installer.exe
+          copy /b "C:\Program Files\7-Zip\7zS.sfx" + windows\config.txt + app.7z modpack_installer.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
