@@ -32,7 +32,7 @@ abstract class Downloader {
   /// The status of the current download task.
   /// You should also check the related [hasExtracted] boolean
   /// to determine if the Downloader is fully done.
-  static final status = ValueNotifier(TaskStatus.canceled);
+  static final status = ValueNotifier(TaskStatus.enqueued);
 
   /// Whether the [_outputZip] has finished extracting.
   /// If true, [status] will be [TaskStatus.complete].
@@ -56,7 +56,7 @@ abstract class Downloader {
 
     _currentTask = null;
     progress.value = null;
-    status.value = TaskStatus.canceled;
+    status.value = TaskStatus.enqueued;
     hasExtracted = false;
     outputDir = null;
 
