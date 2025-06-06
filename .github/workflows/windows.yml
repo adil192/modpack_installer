@@ -9,6 +9,8 @@ jobs:
     name: Build for Windows
     runs-on: windows-latest
     timeout-minutes: 20
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
