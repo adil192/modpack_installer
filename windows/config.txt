@@ -1,0 +1,5 @@
+;!@Install@!UTF-8!
+Title="Modpack Installer"
+BeginPrompt="Run the modpack installer?"
+RunProgram="installer.exe"
+;!@InstallEnd@!
