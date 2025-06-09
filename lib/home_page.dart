@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Step;
 import 'package:installer/compute/step_controller.dart';
+import 'package:installer/widgets/footer.dart';
 import 'package:installer/widgets/steps/download_step.dart';
 import 'package:installer/widgets/steps/find_prism_launcher_step.dart';
 import 'package:installer/widgets/steps/install_step.dart';
@@ -18,16 +19,23 @@ class HomePage extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: 1000),
           child: ListenableBuilder(
             listenable: stepController,
-            builder: (context, child) {
-              return ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 32,
-                ),
-                children: getChildren(
-                  context,
-                  stepController.currentAndPrevious,
-                ).toList(),
+            builder: (context, _) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 32,
+                      ),
+                      children: getChildren(
+                        context,
+                        stepController.currentAndPrevious,
+                      ).toList(),
+                    ),
+                  ),
+                  const Footer(),
+                ],
               );
             },
           ),
