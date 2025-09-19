@@ -46,14 +46,14 @@ class SelectModpackStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: modpackUrl,
-      builder: (context, modpackUrl, _) {
-        final child = _unanimatedBuild(context, modpackUrl);
+      builder: (context, _, _) {
+        final child = _unanimatedBuild(context, modpackUrl.value);
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           switchInCurve: Curves.easeOut,
           layoutBuilder: topLeftLayoutBuilder,
           child: SizedBox(
-            key: ValueKey(child),
+            key: ValueKey(modpackUrl.value),
             width: double.infinity,
             child: child,
           ),
