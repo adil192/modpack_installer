@@ -14,29 +14,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      body: ListenableBuilder(
-        listenable: stepController,
-        builder: (context, _) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView(
+      body: Column(
+        children: [
+          Expanded(
+            child: ListenableBuilder(
+              listenable: stepController,
+              builder: (context, _) {
+                return ListView(
                   padding: EdgeInsets.symmetric(
-                    horizontal: paddingForMaxWidth(screenWidth),
+                    horizontal: paddingForMaxWidth(
+                      MediaQuery.sizeOf(context).width,
+                    ),
                     vertical: 32,
                   ),
                   children: getChildren(
                     context,
                     stepController.currentAndPrevious,
                   ).toList(),
-                ),
-              ),
-              const Footer(),
-            ],
-          );
-        },
+                );
+              },
+            ),
+          ),
+          const Footer(),
+        ],
       ),
     );
   }
