@@ -1,3 +1,4 @@
+import 'package:basics/comparable_basics.dart';
 import 'package:flutter/material.dart' hide Step;
 import 'package:installer/compute/step_controller.dart';
 import 'package:installer/widgets/footer.dart';
@@ -13,35 +14,36 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      body: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 1000),
-          child: ListenableBuilder(
-            listenable: stepController,
-            builder: (context, _) {
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 32,
-                      ),
-                      children: getChildren(
-                        context,
-                        stepController.currentAndPrevious,
-                      ).toList(),
-                    ),
+      body: ListenableBuilder(
+        listenable: stepController,
+        builder: (context, _) {
+          return Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: paddingForMaxWidth(screenWidth),
+                    vertical: 32,
                   ),
-                  const Footer(),
-                ],
-              );
-            },
-          ),
-        ),
+                  children: getChildren(
+                    context,
+                    stepController.currentAndPrevious,
+                  ).toList(),
+                ),
+              ),
+              const Footer(),
+            ],
+          );
+        },
       ),
     );
+  }
+
+  double paddingForMaxWidth(double screenWidth) {
+    const maxWidth = 1000;
+    return max(16, (screenWidth - maxWidth) / 2);
   }
 
   @visibleForTesting
