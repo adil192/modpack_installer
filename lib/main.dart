@@ -20,8 +20,29 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    stows.useMinecraftFont.addListener(_onFontPreferenceChanged);
+  }
+
+  @override
+  void dispose() {
+    stows.useMinecraftFont.removeListener(_onFontPreferenceChanged);
+    super.dispose();
+  }
+
+  void _onFontPreferenceChanged() {
+    if (mounted) setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
