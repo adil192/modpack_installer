@@ -12,6 +12,9 @@ import 'package:installer/widgets/steps/welcome_step.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  static List<Widget> _lastChildren = [];
+  static Step? _lastStep;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +24,15 @@ class HomePage extends StatelessWidget {
             child: ListenableBuilder(
               listenable: stepController,
               builder: (context, _) {
+                if (_lastStep != stepController.current) {
+                  // Step changed, update children
+                  _lastStep = stepController.current;
+                  _lastChildren = getChildren(
+                    context,
+                    stepController.currentAndPrevious,
+                  ).toList();
+                }
+
                 return ListView(
                   padding: EdgeInsets.symmetric(
                     horizontal: paddingForMaxWidth(
@@ -28,10 +40,7 @@ class HomePage extends StatelessWidget {
                     ),
                     vertical: 32,
                   ),
-                  children: getChildren(
-                    context,
-                    stepController.currentAndPrevious,
-                  ).toList(),
+                  children: _lastChildren,
                 );
               },
             ),
