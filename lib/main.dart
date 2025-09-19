@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/home_page.dart';
-import 'package:installer/widgets/theme_provider.dart';
+import 'package:installer/util/stows.dart';
+import 'package:installer/util/theme_util.dart';
 
-void main() {
+Future<void> main() async {
   PrismLauncher.init();
+  await stows.useMinecraftFont.waitUntilRead();
 
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString(
@@ -23,15 +25,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ThemeProvider(
-      builder: (context, lightTheme, darkTheme) {
-        return MaterialApp(
-          title: 'adil192\'s modpack installer',
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          home: const HomePage(),
-        );
-      },
+    return MaterialApp(
+      title: 'adil192\'s modpack installer',
+      theme: ThemeUtil.lightTheme,
+      darkTheme: ThemeUtil.darkTheme,
+      home: const HomePage(),
     );
   }
 }
