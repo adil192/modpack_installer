@@ -35,7 +35,7 @@ dependencies:
   background_downloader: ^9.2.2
   basics: ^0.10.0
   gpt_markdown: ^1.0.19
-  nes_ui: ^0.25.0
+  nes_ui: ^0.24.0
   path: ^1.9.1
   path_provider: ^2.1.5
   stow_plain: ^0.5.1
