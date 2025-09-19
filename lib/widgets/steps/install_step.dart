@@ -22,9 +22,31 @@ class _InstallStepState extends State<InstallStep> {
   late final installer = Installer(instance: instance, modpackDir: modpackDir);
 
   late final changelogFile = File(p.join(modpackDir.path, 'CHANGELOG.md'));
-  late final changelogContent = changelogFile.existsSync()
-      ? changelogFile.readAsStringSync()
-      : 'No changelog available.';
+  late final changelogContent = _readChangelog();
+
+  String _readChangelog() {
+    final wholeChangelog = changelogFile.existsSync()
+        ? changelogFile.readAsStringSync()
+        : 'No changelog available.';
+
+    final end = nthHeadingIndex(wholeChangelog, 2);
+    if (end == -1) {
+      return wholeChangelog;
+    } else {
+      return wholeChangelog.substring(0, end).trim();
+    }
+  }
+
+  int nthHeadingIndex(String content, int n) {
+    var prevIndex = -1;
+    for (var i = 0; i < n; ++i) {
+      final nextIndex = content.indexOf('\n#', prevIndex + 1);
+      print('nthHeadingIndex: Found heading $i at $nextIndex');
+      if (nextIndex == -1) return -1;
+      prevIndex = nextIndex;
+    }
+    return prevIndex;
+  }
 
   @override
   void initState() {
