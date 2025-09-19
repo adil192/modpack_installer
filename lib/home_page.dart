@@ -34,6 +34,7 @@ class HomePage extends StatelessWidget {
                 }
 
                 return ListView(
+                  reverse: true,
                   padding: EdgeInsets.symmetric(
                     horizontal: paddingForMaxWidth(
                       MediaQuery.sizeOf(context).width,
@@ -58,7 +59,7 @@ class HomePage extends StatelessWidget {
 
   @visibleForTesting
   Iterable<Widget> getChildren(BuildContext context, List<Step> steps) sync* {
-    for (final step in Step.values) {
+    for (final step in Step.values.reversed) {
       switch (step) {
         case Step.welcome:
           yield _ConstrainedStep(
