@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:installer/compute/downloader.dart';
 import 'package:installer/compute/installer.dart';
@@ -51,16 +52,27 @@ class _InstallStepState extends State<InstallStep> {
   @override
   void initState() {
     super.initState();
-    installer.addListener(_setState);
+    installer.addListener(_onInstallerUpdate);
   }
 
   @override
   void dispose() {
-    installer.removeListener(_setState);
+    installer.removeListener(_onInstallerUpdate);
     super.dispose();
   }
 
-  void _setState() {
+  bool _shownConfetti = false;
+
+  void _onInstallerUpdate() {
+    if (installer.finishedInstalling && !_shownConfetti && mounted) {
+      _shownConfetti = true;
+      Confetti.launch(
+        context,
+        options: const ConfettiOptions(particleCount: 200, spread: 70, y: 0.9),
+      );
+    } else if (!installer.finishedInstalling) {
+      _shownConfetti = false;
+    }
     if (mounted) setState(() {});
   }
 

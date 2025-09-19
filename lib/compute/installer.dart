@@ -13,6 +13,10 @@ class Installer extends ChangeNotifier {
 
   /// If an error occurs, this will be non-null.
   String? error;
+
+  /// True if installation completed successfully.
+  bool finishedInstalling = false;
+  
   final log = <String>[];
 
   bool isInstalling = false;
@@ -20,6 +24,7 @@ class Installer extends ChangeNotifier {
     if (isInstalling) return;
 
     isInstalling = true;
+    finishedInstalling = false;
     log.clear();
     notifyListeners();
 
@@ -105,6 +110,7 @@ class Installer extends ChangeNotifier {
     instance.instanceCfgFile.writeAsStringSync(instanceCfg.join('\n'));
 
     log.add('Installation completed successfully for ${instance.cfgName}.');
+    finishedInstalling = true;
     notifyListeners();
   }
 }
