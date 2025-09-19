@@ -9,9 +9,13 @@ class SelectModpackStep extends StatelessWidget {
 
   static final modpackUrl = ValueNotifier<Uri?>(null);
   static void _findInitialModpackUrl() {
-    final uri = tryParse(PrismLauncher.selectedInstance?.cfgManagedPackID);
+    final uri = tryParse(
+      PrismLauncher.selectedInstance?.cfgManagedPackID,
+    )?.toString();
     if (uri == null) return;
-    _ChooseModpackState._lastInput = uri.toString();
+    if (_ChooseModpackState._lastInput == uri) return;
+
+    _ChooseModpackState._lastInput = uri;
     print('SelectModpackStep: Found initial modpack URL: $uri');
   }
 
