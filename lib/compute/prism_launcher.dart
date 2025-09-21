@@ -1,23 +1,28 @@
 import 'dart:io';
 
 import 'package:installer/compute/prism_instance.dart';
-import 'package:installer/util/value_error_pair.dart';
+import 'package:installer/util/stows.dart';
 import 'package:path/path.dart' as p;
 
 abstract class PrismLauncher {
   static void init() async {
-    prismDir = _findPrismDir();
+    await _findPrismDir();
     instances = await _findPrismInstances();
   }
-
-  static late ValueErrorPair<Directory> prismDir;
-  static Directory get prismDirOrThrow =>
-      prismDir.hasValue ? prismDir.value! : throw prismDir.error;
 
   static PrismInstance? selectedInstance;
   static List<PrismInstance>? instances;
 
-  static ValueErrorPair<Directory> _findPrismDir() {
+  /// Sets [Stows.prismDir] if found.
+  static Future<void> _findPrismDir() async {
+    // Check if we already have a stored path
+    await stows.prismDir.waitUntilRead();
+    if (stows.prismDir.value != null) {
+      final dir = Directory(stows.prismDir.value!);
+      if (dir.existsSync()) return;
+    }
+
+    // Otherwise, try to find it
     for (var dirPath in _potentialPrismDirs) {
       dirPath = dirPath
           .replaceWithEnv('~', 'HOME')
@@ -26,21 +31,19 @@ abstract class PrismLauncher {
           .replaceWithEnv('%HOMEPATH%', 'HOMEPATH');
       final dir = Directory(dirPath);
       if (dir.existsSync()) {
-        return ValueErrorPair.value(dir);
+        stows.prismDir.value = dir.path;
+        return;
       }
     }
 
-    return ValueErrorPair.error(
-      FileSystemException(
-        'Prism Launcher data directory not found.\n'
-        'Please ensure Prism Launcher is installed and has been run at least once.',
-      ),
-    );
+    // Couldn't find it, do nothing
+    stows.prismDir.value = null;
   }
 
   static Future<List<PrismInstance>> _findPrismInstances() async {
-    final prismDir = PrismLauncher.prismDir.value;
-    if (prismDir == null) return const [];
+    final prismDirPath = stows.prismDir.value;
+    if (prismDirPath == null) return const [];
+    final prismDir = Directory(prismDirPath);
 
     final instancesDir = Directory(p.join(prismDir.path, 'instances'));
     if (!instancesDir.existsSync()) return const [];
@@ -54,12 +57,12 @@ abstract class PrismLauncher {
 
   /// https://prismlauncher.org/wiki/getting-started/data-location/
   static final _potentialPrismDirs = [
-    if (Platform.isLinux) ...[
+    if (Platform.isLinux) ...const [
       '~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher',
       '~/.local/share/prismlauncher',
     ],
     if (Platform.isMacOS) '~/Library/Application Support/PrismLauncher',
-    if (Platform.isWindows) ...[
+    if (Platform.isWindows) ...const [
       '%APPDATA%\\PrismLauncher',
       '%LOCALAPPDATA%\\PrismLauncher',
       '%HOMEPATH%\\scoop\\persist\\prismlauncher',

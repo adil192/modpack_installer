@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart' hide Step;
-import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/compute/step_controller.dart';
+import 'package:installer/util/stows.dart';
 import 'package:nes_ui/nes_ui.dart';
 
 class FindPrismLauncherStep extends StatelessWidget {
@@ -10,20 +8,20 @@ class FindPrismLauncherStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prismDir = PrismLauncher.prismDir;
+    final prismDir = stows.prismDir.value;
 
-    if (prismDir.hasError) {
-      return _Error(prismDir.error);
+    if (prismDir == null) {
+      return _Error();
     } else {
       stepController.markStepComplete(Step.findPrismLauncher);
-      return _Success(prismDir.value!);
+      return _Success(prismDir);
     }
   }
 }
 
 class _Success extends StatelessWidget {
   const _Success(this.prismDir);
-  final Directory prismDir;
+  final String prismDir;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,7 @@ class _Success extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                prismDir.path,
+                prismDir,
                 style: TextTheme.of(context).bodyMedium,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -61,8 +59,7 @@ class _Success extends StatelessWidget {
 }
 
 class _Error extends StatelessWidget {
-  const _Error(this.error);
-  final dynamic error;
+  const _Error();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +73,7 @@ class _Error extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         SelectableText(
-          error.toString(),
+          'Please ensure Prism Launcher is installed and has been run at least once.',
           style: Theme.of(context).textTheme.bodyMedium,
           textAlign: TextAlign.center,
         ),

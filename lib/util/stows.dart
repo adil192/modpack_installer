@@ -6,4 +6,6 @@ final stows = Stows();
 @visibleForTesting
 class Stows {
   final useMinecraftFont = PlainStow('useMinecraftFont', true);
+
+  final prismDir = PlainStow<String?>('prismDir', null);
 }
