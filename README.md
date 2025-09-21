@@ -2,4 +2,4 @@
 
 A small tool to easily update your modpacks.
 
-![Untitled](https://github.com/user-attachments/assets/044160b3-116c-4d0e-963f-2151508d3fb5)
+<img width="1266" height="1181" src="https://github.com/user-attachments/assets/49a01afe-0920-4dac-bad4-fb1784da1e22" />
