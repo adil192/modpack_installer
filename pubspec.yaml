@@ -30,10 +30,12 @@ dependencies:
   basics: ^0.10.0
   flutter_confetti: ^0.5.1
   gpt_markdown: ^1.0.19
+  handy_window: ^0.4.0
   nes_ui: ^0.24.0
   path: ^1.9.1
   path_provider: ^2.1.5
   stow_plain: ^0.5.1
+  yaru: ^8.3.0
 
 dev_dependencies:
   flutter_test:

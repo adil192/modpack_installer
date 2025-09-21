@@ -105,7 +105,7 @@ class _InstallStepState extends State<InstallStep> {
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerLowest,
+            color: colorScheme.surface,
             borderRadius: BorderRadius.circular(8),
           ),
           margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
@@ -124,7 +124,7 @@ class _InstallStepState extends State<InstallStep> {
             gradient: LinearGradient(
               colors: [
                 primaryColor,
-                colorScheme.surfaceContainerLowest,
+                colorScheme.surface,
                 secondaryColor,
               ],
               transform: GradientRotation(pi * 0.4),

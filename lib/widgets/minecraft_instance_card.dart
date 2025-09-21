@@ -23,11 +23,7 @@ class MinecraftInstanceCard extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            primaryColor,
-            colorScheme.surfaceContainerLowest,
-            secondaryColor,
-          ],
+          colors: [primaryColor, colorScheme.surface, secondaryColor],
           transform: GradientRotation(pi * 0.4),
         ),
         borderRadius: BorderRadius.circular(16),
@@ -65,7 +61,7 @@ class _ComponentChip extends StatelessWidget {
     return NesContainer(
       backgroundColor: Color.lerp(
         colorScheme.inverseSurface,
-        colorScheme.surfaceContainerLowest,
+        colorScheme.surface,
         0.95,
       )!,
       borderColor: Color.lerp(colorScheme.inverseSurface, borderColor, 0.8)!,

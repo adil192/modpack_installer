@@ -2,22 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:installer/util/stows.dart';
 import 'package:installer/util/text_theme_extension.dart';
 import 'package:nes_ui/nes_ui.dart';
+import 'package:yaru/yaru.dart';
 
 abstract class ThemeUtil {
   static ThemeData get lightTheme => _getTheme(Brightness.light);
   static ThemeData get darkTheme => _getTheme(Brightness.dark);
 
   static ThemeData _getTheme(Brightness brightness) {
-    var theme = flutterNesTheme(
-      primaryColor: Colors.green,
-      brightness: brightness,
+    final yaruTheme = brightness == Brightness.light
+        ? YaruVariant.adwaitaGreen.theme
+        : YaruVariant.adwaitaGreen.darkTheme;
+    final nesTheme = flutterNesTheme(
+      primaryColor: yaruTheme.colorScheme.primary,
+      brightness: yaruTheme.brightness,
     );
-    theme = theme.copyWith(
+    return yaruTheme.copyWith(
+      colorScheme: nesTheme.colorScheme,
       textTheme: stows.useMinecraftFont.value
-          ? _applyMinecraftFont(theme.textTheme)
-          : _applyAccessibleFont(theme.textTheme),
+          ? _applyMinecraftFont(nesTheme.textTheme)
+          : _applyAccessibleFont(nesTheme.textTheme),
+      extensions: [
+        ...yaruTheme.extensions.values,
+        ...nesTheme.extensions.values,
+      ],
     );
-    return theme;
   }
 
   static TextTheme _applyMinecraftFont(TextTheme textTheme) {
