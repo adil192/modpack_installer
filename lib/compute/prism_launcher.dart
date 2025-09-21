@@ -77,18 +77,25 @@ abstract class PrismLauncher {
   }
 
   /// https://prismlauncher.org/wiki/getting-started/data-location/
-  static final _potentialPrismDirs = [
-    if (Platform.isLinux) ...const [
-      '~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher',
-      '~/.local/share/prismlauncher',
-    ],
-    if (Platform.isMacOS) '~/Library/Application Support/PrismLauncher',
-    if (Platform.isWindows) ...const [
-      '%APPDATA%\\PrismLauncher',
-      '%LOCALAPPDATA%\\PrismLauncher',
-      '%HOMEPATH%\\scoop\\persist\\prismlauncher',
-    ],
-  ];
+  @pragma('vm:platform-const')
+  static List<String> get _potentialPrismDirs {
+    if (Platform.isLinux) {
+      return const [
+        '~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher',
+        '~/.local/share/prismlauncher',
+      ];
+    } else if (Platform.isMacOS) {
+      return const ['~/Library/Application Support/PrismLauncher'];
+    } else if (Platform.isWindows) {
+      return const [
+        '%APPDATA%\\PrismLauncher',
+        '%LOCALAPPDATA%\\PrismLauncher',
+        '%HOMEPATH%\\scoop\\persist\\prismlauncher',
+      ];
+    } else {
+      return const [];
+    }
+  }
 }
 
 extension _ReplaceWithEnv on String {
