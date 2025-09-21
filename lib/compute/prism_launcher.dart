@@ -5,13 +5,20 @@ import 'package:installer/util/stows.dart';
 import 'package:path/path.dart' as p;
 
 abstract class PrismLauncher {
+  static List<PrismInstance>? instances;
+
+  static PrismInstance? get selectedInstance => _selectedInstance;
+  static PrismInstance? _selectedInstance;
+  static set selectedInstance(PrismInstance? instance) {
+    _selectedInstance = instance;
+    stows.selectedPrismInstanceDir.value = instance?.instanceDir.path;
+  }
+
   static void init() async {
     await _findPrismDir();
     instances = await _findPrismInstances();
+    await _restoreSelectedInstance();
   }
-
-  static PrismInstance? selectedInstance;
-  static List<PrismInstance>? instances;
 
   /// Sets [Stows.prismDir] if found.
   static Future<void> _findPrismDir() async {
@@ -53,6 +60,20 @@ abstract class PrismLauncher {
       for (final instance in instances)
         if (instance is Directory) PrismInstance.fromDirectory(instance),
     ]);
+  }
+
+  static Future<void> _restoreSelectedInstance() async {
+    await stows.selectedPrismInstanceDir.waitUntilRead();
+    final selectedDirPath = stows.selectedPrismInstanceDir.value;
+    if (selectedDirPath == null) return;
+    final selectedDir = Directory(selectedDirPath);
+    if (!selectedDir.existsSync()) return;
+
+    try {
+      _selectedInstance = await PrismInstance.fromDirectory(selectedDir);
+    } catch (e, st) {
+      print('Failed to restore selected Prism instance: $e\n$st');
+    }
   }
 
   /// https://prismlauncher.org/wiki/getting-started/data-location/

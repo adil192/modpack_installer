@@ -8,4 +8,8 @@ class Stows {
   final useMinecraftFont = PlainStow('useMinecraftFont', true);
 
   final prismDir = PlainStow<String?>('prismDir', null);
+  final selectedPrismInstanceDir = PlainStow<String?>(
+    'selectedPrismInstanceDir',
+    null,
+  );
 }
