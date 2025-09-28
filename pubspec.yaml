@@ -4,7 +4,7 @@ description: "A small tool to easily update your modpacks."
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.5+100050
+version: 1.0.6+100060
 
 environment:
   sdk: ^3.8.1
