@@ -61,6 +61,11 @@ class Installer extends ChangeNotifier {
         log.add('Skipping existing file: $relativePath');
         notifyListeners();
         continue;
+      } else if (!canClobber &&
+          File('${targetFile.path}.disabled').existsSync()) {
+        log.add('Skipping disabled file: $relativePath');
+        notifyListeners();
+        continue;
       }
 
       log.add('Copying $relativePath...');
