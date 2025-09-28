@@ -36,7 +36,16 @@ jobs:
 
       - name: Build Linux
         run: flutter build linux
-      
+
+      - name: Remove cruft
+        working-directory: build/linux/x64/release/bundle
+        run: |
+          rm data/flutter_assets/packages/flutter_math_fork/lib/katex_fonts/fonts/*.ttf
+          rm data/flutter_assets/packages/gpt_markdown/lib/fonts/*.ttf
+          rm data/flutter_assets/packages/nes_ui/google_fonts/*.ttf
+          truncate -s 0 data/flutter_assets/packages/nes_ui/google_fonts/OFL.txt
+          rm data/flutter_assets/packages/yaru/assets/fonts/*.ttf
+
       - name: Compress build
         id: compress
         run: |
