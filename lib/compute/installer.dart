@@ -129,6 +129,11 @@ class Installer extends ChangeNotifier {
     if (relativePath.startsWith(p.join('minecraft', 'config'))) return false;
     // Don't replace server list
     if (relativePath == p.join('minecraft', 'servers.dat')) return false;
+    // Don't replace mod jars
+    if (relativePath.startsWith(p.join('minecraft', 'mods')) &&
+        relativePath.endsWith('.jar')) {
+      return false;
+    }
     // Overwrite everything else
     return true;
   }
