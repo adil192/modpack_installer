@@ -16,7 +16,7 @@ class Installer extends ChangeNotifier {
 
   /// True if installation completed successfully.
   bool finishedInstalling = false;
-  
+
   final log = <String>[];
 
   bool isInstalling = false;
@@ -52,8 +52,17 @@ class Installer extends ChangeNotifier {
       followLinks: true,
     )) {
       if (entity is! File) continue;
+
       final relativePath = p.relative(entity.path, from: modpackDir.path);
       final targetFile = File(p.join(instance.instanceDir.path, relativePath));
+
+      final canClobber = this.canClobber(relativePath);
+      if (!canClobber && targetFile.existsSync()) {
+        log.add('Skipping existing file: $relativePath');
+        notifyListeners();
+        continue;
+      }
+
       log.add('Copying $relativePath...');
       notifyListeners();
       try {
@@ -112,5 +121,15 @@ class Installer extends ChangeNotifier {
     log.add('Installation completed successfully for ${instance.cfgName}.');
     finishedInstalling = true;
     notifyListeners();
+  }
+
+  /// Whether we should overrite the file if it exists.
+  bool canClobber(String relativePath) {
+    // Don't replace configs
+    if (relativePath.startsWith(p.join('minecraft', 'config'))) return false;
+    // Don't replace server list
+    if (relativePath == p.join('minecraft', 'servers.dat')) return false;
+    // Overwrite everything else
+    return true;
   }
 }
