@@ -52,9 +52,10 @@ class PrismInstance {
     'Quilt': 'Quilt',
   };
 
-  PrismInstance._(this.instanceDir);
+  @visibleForTesting
+  PrismInstance.unprocessed(this.instanceDir);
   static Future<PrismInstance> fromDirectory(Directory instanceDir) async {
-    final instance = PrismInstance._(instanceDir);
+    final instance = PrismInstance.unprocessed(instanceDir);
 
     if (instance.instanceCfgFile.existsSync()) {
       final cfgLines = await instance.instanceCfgFile.readAsLines();

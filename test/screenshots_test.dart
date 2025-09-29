@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart' hide Step;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_screenshot/golden_screenshot.dart';
+import 'package:installer/compute/prism_instance.dart';
+import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/compute/step_controller.dart';
 import 'package:installer/home_page.dart';
 import 'package:installer/util/stows.dart';
@@ -14,21 +18,58 @@ void main() {
 
     group('findPrismLauncher', () {
       testGoldens('error', (tester) async {
-        stows.prismDir.value = null;
         stepController.markStepComplete(Step.welcome, delayNext: false);
+        stows.prismDir.value = null;
+        await _screenshotApp(tester, 'goldens/1_find_prism_launcher_error.png');
+      });
+    });
 
-        await tester.pumpWidget(_HomeApp());
-        await tester.loadFonts();
-        await tester.precacheImagesInWidgetTree();
-        await tester.pumpAndSettle();
-
-        await expectLater(
-          find.byType(HomePage),
-          matchesGoldenFile('goldens/find_prism_launcher_error.png'),
+    group('selectInstance', () {
+      setUp(() {
+        stepController.markStepComplete(Step.welcome, delayNext: false);
+        stows.prismDir.value = '/home/tester/.local/share/prismlauncher';
+        stepController.markStepComplete(
+          Step.findPrismLauncher,
+          delayNext: false,
         );
+      });
+      testGoldens('empty', (tester) async {
+        PrismLauncher.instances = [];
+        await _screenshotApp(tester, 'goldens/2_select_instance_empty.png');
+      });
+      testGoldens('non-empty', (tester) async {
+        PrismLauncher.instances = [getChadInstance(), getJoshyInstance()];
+        await _screenshotApp(tester, 'goldens/2_select_instance_non_empty.png');
       });
     });
   });
+}
+
+PrismInstance getChadInstance() =>
+    PrismInstance.unprocessed(Directory('${stows.prismDir.value}/chad_forge'))
+      ..cfgName = 'chad_forge'
+      ..cfgExportVersion = '2.7.0'
+      ..cfgManagedPackID = 'https://modpacks.example.com/chad_forge.zip'
+      ..minecraftVersion = '1.21.1'
+      ..modLoader = 'NeoForge'
+      ..modLoaderVersion = '21.1.209'
+      ..generateColors();
+PrismInstance getJoshyInstance() =>
+    PrismInstance.unprocessed(Directory('${stows.prismDir.value}/joshy'))
+      ..cfgName = 'joshy'
+      ..cfgExportVersion = '1.6.1'
+      ..cfgManagedPackID = 'https://modpacks.example.com/joshy.zip'
+      ..minecraftVersion = '1.21.1'
+      ..modLoader = 'NeoForge'
+      ..modLoaderVersion = '21.1.209'
+      ..generateColors();
+
+Future<void> _screenshotApp(WidgetTester tester, String goldenFilePath) async {
+  await tester.pumpWidget(_HomeApp());
+  await tester.loadFonts();
+  await tester.precacheImagesInWidgetTree();
+  await tester.pumpAndSettle();
+  await expectLater(find.byType(HomePage), matchesGoldenFile(goldenFilePath));
 }
 
 class _HomeApp extends StatelessWidget {
@@ -55,5 +96,3 @@ class _HomeApp extends StatelessWidget {
     );
   }
 }
-
-class FakeBuildContext extends Fake implements BuildContext {}
