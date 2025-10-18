@@ -124,23 +124,73 @@ class _Choose extends StatelessWidget {
         else
           LayoutBuilder(
             builder: (context, constraints) {
-              return Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final instance in instances)
-                    SizedBox(
-                      width: constraints.maxWidth < 400
-                          ? double.infinity
-                          : constraints.maxWidth / 2 - 8,
-                      child: NesPressable(
-                        onPress: () => select(instance),
-                        child: MinecraftInstanceCard(instance: instance),
-                      ),
-                    ),
-                ],
+              return _InstanceCards(
+                cardWidth: constraints.maxWidth < 400
+                    ? double.infinity
+                    : (constraints.maxWidth - 8) / 2,
+                instances: instances,
+                select: select,
               );
             },
+          ),
+      ],
+    );
+  }
+}
+
+class _InstanceCards extends StatefulWidget {
+  const _InstanceCards({
+    required this.cardWidth,
+    required this.instances,
+    required this.select,
+  });
+
+  final double cardWidth;
+  final List<PrismInstance> instances;
+  final void Function(PrismInstance instance) select;
+
+  @override
+  State<_InstanceCards> createState() => _InstanceCardsState();
+}
+
+class _InstanceCardsState extends State<_InstanceCards> {
+  bool showAllInstances = false;
+
+  late final allInstances = widget.instances;
+  late final filteredInstances = allInstances
+      .where((instance) => instance.cfgManagedPackID.startsWith('http'))
+      .toList(growable: false);
+
+  @override
+  Widget build(BuildContext context) {
+    final instances = (showAllInstances || filteredInstances.isEmpty)
+        ? allInstances
+        : filteredInstances;
+    final hiddenInstances = allInstances.length - instances.length;
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (final instance in instances)
+          SizedBox(
+            width: widget.cardWidth,
+            child: NesPressable(
+              onPress: () => widget.select(instance),
+              child: MinecraftInstanceCard(instance: instance),
+            ),
+          ),
+        if (hiddenInstances > 0)
+          SizedBox(
+            width: double.infinity,
+            child: NesButton(
+              onPressed: () {
+                setState(() {
+                  showAllInstances = !showAllInstances;
+                });
+              },
+              type: NesButtonType.normal,
+              child: Text('Show $hiddenInstances more instances'),
+            ),
           ),
       ],
     );
