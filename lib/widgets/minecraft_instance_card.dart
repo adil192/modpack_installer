@@ -20,30 +20,33 @@ class MinecraftInstanceCard extends StatelessWidget {
         ? instance.secondaryColorLight
         : instance.secondaryColorDark;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [primaryColor, colorScheme.surface, secondaryColor],
-          transform: GradientRotation(pi * 0.4),
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: NesContainer(
-        backgroundColor: Colors.transparent,
-        child: _RowOrColumn(
-          title: Text(
-            instance.cfgName,
-            style: TextTheme.of(context).titleMedium,
+    return Tooltip(
+      message: instance.instanceDir.path,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [primaryColor, colorScheme.surface, secondaryColor],
+            transform: GradientRotation(pi * 0.4),
           ),
-          chips: [
-            if (instance.minecraftVersion.isNotEmpty)
-              _ComponentChip(
-                instance.minecraftVersion,
-                borderColor: primaryColor,
-              ),
-            if (instance.modLoader.isNotEmpty)
-              _ComponentChip(instance.modLoader, borderColor: primaryColor),
-          ],
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: NesContainer(
+          backgroundColor: Colors.transparent,
+          child: _RowOrColumn(
+            title: Text(
+              instance.cfgName,
+              style: TextTheme.of(context).titleMedium,
+            ),
+            chips: [
+              if (instance.minecraftVersion.isNotEmpty)
+                _ComponentChip(
+                  instance.minecraftVersion,
+                  borderColor: primaryColor,
+                ),
+              if (instance.modLoader.isNotEmpty)
+                _ComponentChip(instance.modLoader, borderColor: primaryColor),
+            ],
+          ),
         ),
       ),
     );
