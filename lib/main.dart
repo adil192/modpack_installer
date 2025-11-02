@@ -5,12 +5,17 @@ import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/home_page.dart';
 import 'package:installer/util/stows.dart';
 import 'package:installer/util/theme_util.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:yaru/yaru.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   PrismLauncher.init();
   await Future.wait([
     YaruWindowTitleBar.ensureInitialized(),
+    windowManager.ensureInitialized().then(
+      (_) => windowManager.setTitleBarStyle(TitleBarStyle.hidden),
+    ),
     stows.useMinecraftFont.waitUntilRead(),
   ]);
 
