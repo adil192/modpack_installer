@@ -8,7 +8,8 @@ class SelectModpackStep extends StatelessWidget {
   const SelectModpackStep({super.key});
 
   static final modpackUrl = ValueNotifier<Uri?>(null);
-  static void _findInitialModpackUrl() {
+  @visibleForTesting
+  static void findInitialModpackUrl() {
     final uri = tryParse(
       PrismLauncher.selectedInstance?.cfgManagedPackID,
     )?.toString();
@@ -154,7 +155,7 @@ class _ChooseModpackState extends State<_ChooseModpack> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    SelectModpackStep._findInitialModpackUrl();
+    SelectModpackStep.findInitialModpackUrl();
   }
 
   @override

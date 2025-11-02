@@ -104,4 +104,30 @@ class PrismInstance {
 
     return instance;
   }
+
+  PrismInstance copyWith({
+    Directory? instanceDir,
+    String? cfgName,
+    String? cfgExportVersion,
+    String? cfgManagedPackID,
+    String? minecraftVersion,
+    String? modLoader,
+    String? modLoaderVersion,
+    bool preserveColors = false,
+  }) {
+    final newInstance =
+        PrismInstance.unprocessed(instanceDir ?? this.instanceDir)
+          ..cfgName = cfgName ?? this.cfgName
+          ..cfgExportVersion = cfgExportVersion ?? this.cfgExportVersion
+          ..cfgManagedPackID = cfgManagedPackID ?? this.cfgManagedPackID
+          ..minecraftVersion = minecraftVersion ?? this.minecraftVersion
+          ..modLoader = modLoader ?? this.modLoader
+          ..modLoaderVersion = modLoaderVersion ?? this.modLoaderVersion
+          ..primaryColorLight = primaryColorLight
+          ..primaryColorDark = primaryColorDark
+          ..secondaryColorLight = secondaryColorLight
+          ..secondaryColorDark = secondaryColorDark;
+    if (!preserveColors) newInstance.generateColors();
+    return newInstance;
+  }
 }

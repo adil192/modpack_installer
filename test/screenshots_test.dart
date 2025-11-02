@@ -9,6 +9,7 @@ import 'package:installer/compute/step_controller.dart';
 import 'package:installer/home_page.dart';
 import 'package:installer/util/stows.dart';
 import 'package:installer/util/theme_util.dart';
+import 'package:installer/widgets/steps/select_modpack_step.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yaru/yaru.dart';
 
@@ -40,6 +41,30 @@ void main() {
       testGoldens('non-empty', (tester) async {
         PrismLauncher.instances = [getChadInstance(), getJoshyInstance()];
         await _screenshotApp(tester, 'goldens/2_select_instance_non_empty.png');
+      });
+    });
+
+    group('selectModpack', () {
+      setUp(() {
+        stepController.markStepComplete(Step.welcome, delayNext: false);
+        stows.prismDir.value = '/home/tester/.local/share/prismlauncher';
+        stepController.markStepComplete(
+          Step.findPrismLauncher,
+          delayNext: false,
+        );
+        PrismLauncher.instances = [getChadInstance(), getJoshyInstance()];
+        PrismLauncher.selectedInstance = PrismLauncher.instances!.first;
+        stepController.markStepComplete(Step.selectInstance, delayNext: false);
+      });
+      testGoldens('empty', (tester) async {
+        PrismLauncher.selectedInstance = PrismLauncher.selectedInstance!
+            .copyWith(cfgManagedPackID: '', preserveColors: true);
+        SelectModpackStep.modpackUrl.value = null;
+        await _screenshotApp(tester, 'goldens/3_select_modpack_empty.png');
+      });
+      testGoldens('filled', (tester) async {
+        SelectModpackStep.findInitialModpackUrl();
+        await _screenshotApp(tester, 'goldens/3_select_modpack_filled.png');
       });
     });
   });
