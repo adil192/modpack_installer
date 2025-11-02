@@ -11,6 +11,9 @@ abstract class Downloader {
   /// The current download task, null if not downloading.
   static DownloadTask? _currentTask;
 
+  /// The latest completed download task (null until a download finishes).
+  static DownloadTask? _latestCompletedTask;
+
   /// The output file of the current download task,
   /// or the last completed download task if not downloading.
   ///
@@ -48,6 +51,8 @@ abstract class Downloader {
         status.value.isNotFinalState) {
       print('Downloader: Already downloading this modpack URL.');
       return;
+    } else if (modpackUrl.toString() == _latestCompletedTask?.url) {
+      print('Downloader: Already downloaded this modpack URL.');
     } else if (_currentTask != null) {
       cancel();
     }
@@ -93,6 +98,7 @@ abstract class Downloader {
 
   static void _onComplete() async {
     if (_currentTask == null) return;
+    _latestCompletedTask = _currentTask;
     _currentTask = null;
     hasExtracted = false;
     print('Downloader: Download completed successfully to $_outputZip.');
