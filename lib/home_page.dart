@@ -64,6 +64,11 @@ class HomePage extends StatelessWidget {
     return max(16, (screenWidth - maxWidth) / 2);
   }
 
+  static final _keys = <Step, GlobalKey>{
+    for (final step in Step.values)
+      step: GlobalKey(debugLabel: 'StepWidget(${step.name})'),
+  };
+
   @visibleForTesting
   Iterable<Widget> getChildren(BuildContext context, List<Step> steps) sync* {
     for (final step in Step.values.reversed) {
@@ -71,32 +76,32 @@ class HomePage extends StatelessWidget {
         case Step.welcome:
           yield _ConstrainedStep(
             show: steps.contains(Step.welcome),
-            child: WelcomeStep(),
+            child: WelcomeStep(key: _keys[Step.welcome]),
           );
         case Step.findPrismLauncher:
           yield _ConstrainedStep(
             show: steps.contains(Step.findPrismLauncher),
-            child: FindPrismLauncherStep(),
+            child: FindPrismLauncherStep(key: _keys[Step.findPrismLauncher]),
           );
         case Step.selectInstance:
           yield _ConstrainedStep(
             show: steps.contains(Step.selectInstance),
-            child: SelectInstanceStep(),
+            child: SelectInstanceStep(key: _keys[Step.selectInstance]),
           );
         case Step.selectModpack:
           yield _ConstrainedStep(
             show: steps.contains(Step.selectModpack),
-            child: SelectModpackStep(),
+            child: SelectModpackStep(key: _keys[Step.selectModpack]),
           );
         case Step.download:
           yield _ConstrainedStep(
             show: steps.contains(Step.download),
-            child: DownloadStep(),
+            child: DownloadStep(key: _keys[Step.download]),
           );
         case Step.install:
           yield _ConstrainedStep(
             show: steps.contains(Step.install),
-            child: InstallStep(),
+            child: InstallStep(key: _keys[Step.install]),
           );
       }
     }
