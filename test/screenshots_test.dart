@@ -39,7 +39,7 @@ void main() {
         await _screenshotApp(tester, 'goldens/2_select_instance_empty.png');
       });
       testGoldens('non-empty', (tester) async {
-        PrismLauncher.instances = [getChadInstance(), getJoshyInstance()];
+        PrismLauncher.instances = [getVanillaInstance(), getPixelmonInstance()];
         await _screenshotApp(tester, 'goldens/2_select_instance_non_empty.png');
       });
     });
@@ -52,7 +52,7 @@ void main() {
           Step.findPrismLauncher,
           delayNext: false,
         );
-        PrismLauncher.instances = [getChadInstance(), getJoshyInstance()];
+        PrismLauncher.instances = [getVanillaInstance(), getPixelmonInstance()];
         PrismLauncher.selectedInstance = PrismLauncher.instances!.first;
         stepController.markStepComplete(Step.selectInstance, delayNext: false);
       });
@@ -70,20 +70,20 @@ void main() {
   });
 }
 
-PrismInstance getChadInstance() =>
-    PrismInstance.unprocessed(Directory('${stows.prismDir.value}/chad_forge'))
-      ..cfgName = 'chad_forge'
+PrismInstance getVanillaInstance() =>
+    PrismInstance.unprocessed(Directory('${stows.prismDir.value}/Vanilla Plus'))
+      ..cfgName = 'Vanilla+'
       ..cfgExportVersion = '2.7.0'
-      ..cfgManagedPackID = 'https://modpacks.example.com/chad_forge.zip'
-      ..minecraftVersion = '1.21.1'
-      ..modLoader = 'NeoForge'
-      ..modLoaderVersion = '21.1.209'
+      ..cfgManagedPackID = 'https://modpacks.example.com/VanillaPlus.zip'
+      ..minecraftVersion = '1.20.1'
+      ..modLoader = 'Fabric'
+      ..modLoaderVersion = '0.17.3'
       ..generateColors();
-PrismInstance getJoshyInstance() =>
-    PrismInstance.unprocessed(Directory('${stows.prismDir.value}/joshy'))
-      ..cfgName = 'joshy'
+PrismInstance getPixelmonInstance() =>
+    PrismInstance.unprocessed(Directory('${stows.prismDir.value}/pixelmon'))
+      ..cfgName = 'pixelmon'
       ..cfgExportVersion = '1.6.1'
-      ..cfgManagedPackID = 'https://modpacks.example.com/joshy.zip'
+      ..cfgManagedPackID = 'https://modpacks.example.com/pixelmon.zip'
       ..minecraftVersion = '1.21.1'
       ..modLoader = 'NeoForge'
       ..modLoaderVersion = '21.1.209'
