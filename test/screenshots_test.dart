@@ -94,7 +94,10 @@ Future<void> _screenshotApp(WidgetTester tester, String goldenFilePath) async {
   await tester.loadFonts();
   await tester.precacheImagesInWidgetTree();
   await tester.pumpAndSettle();
-  await expectLater(find.byType(HomePage), matchesGoldenFile(goldenFilePath));
+  await expectLater(
+    find.byType(MaterialApp),
+    matchesGoldenFile(goldenFilePath),
+  );
 }
 
 class _HomeApp extends StatelessWidget {
@@ -102,21 +105,12 @@ class _HomeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenshotApp(
+    return ScreenshotApp.withConditionalTitlebar(
       device: GoldenScreenshotDevices.flathub.device,
+      title: "adil192's modpack installer",
       theme: ThemeUtil.lightTheme,
-      home: const YaruTitleBarTheme(
-        data: YaruTitleBarThemeData(style: YaruTitleBarStyle.undecorated),
-        child: HomePage(
-          titleBar: YaruWindowTitleBar(
-            title: Text("adil192's modpack installer"),
-            style: YaruTitleBarStyle.normal,
-            isActive: true,
-            isClosable: true,
-            isMaximizable: true,
-            isMinimizable: true,
-          ),
-        ),
+      home: HomePage(
+        titleBar: PreferredSize(preferredSize: Size.zero, child: SizedBox()),
       ),
     );
   }

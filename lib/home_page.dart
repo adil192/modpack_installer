@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
     @visibleForTesting this.titleBar = const YaruWindowTitleBar(),
   });
 
-  final YaruWindowTitleBar titleBar;
+  final PreferredSizeWidget titleBar;
 
   static List<Widget> _lastChildren = [];
   static Step? _lastStep;
