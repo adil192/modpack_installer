@@ -5,6 +5,7 @@ import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/home_page.dart';
 import 'package:installer/util/stows.dart';
 import 'package:installer/util/theme_util.dart';
+import 'package:installer/widgets/bordered_window.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:yaru/yaru.dart';
 
@@ -68,6 +69,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeUtil.darkTheme,
       highContrastTheme: highContrastTheme,
       highContrastDarkTheme: highContrastDarkTheme,
+      builder: (context, child) => BorderedWindow(child: child),
       home: const HomePage(),
     );
   }
