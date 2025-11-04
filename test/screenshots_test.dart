@@ -11,7 +11,6 @@ import 'package:installer/util/stows.dart';
 import 'package:installer/util/theme_util.dart';
 import 'package:installer/widgets/steps/select_modpack_step.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yaru/yaru.dart';
 
 void main() {
   group('Screenshots', () {
@@ -109,9 +108,7 @@ class _HomeApp extends StatelessWidget {
       device: GoldenScreenshotDevices.flathub.device,
       title: "adil192's modpack installer",
       theme: ThemeUtil.lightTheme,
-      home: HomePage(
-        titleBar: PreferredSize(preferredSize: Size.zero, child: SizedBox()),
-      ),
+      home: HomePage(),
     );
   }
 }

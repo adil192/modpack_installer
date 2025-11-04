@@ -12,10 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PrismLauncher.init();
   await Future.wait([
-    YaruWindowTitleBar.ensureInitialized(),
-    windowManager.ensureInitialized().then(
-      (_) => windowManager.setTitleBarStyle(TitleBarStyle.hidden),
-    ),
+    windowManager.ensureInitialized(),
     stows.useMinecraftFont.waitUntilRead(),
   ]);
 

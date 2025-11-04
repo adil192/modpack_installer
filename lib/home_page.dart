@@ -8,15 +8,9 @@ import 'package:installer/widgets/steps/install_step.dart';
 import 'package:installer/widgets/steps/select_instance_step.dart';
 import 'package:installer/widgets/steps/select_modpack_step.dart';
 import 'package:installer/widgets/steps/welcome_step.dart';
-import 'package:yaru/yaru.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({
-    super.key,
-    @visibleForTesting this.titleBar = const YaruWindowTitleBar(),
-  });
-
-  final PreferredSizeWidget titleBar;
+  const HomePage({super.key});
 
   static List<Widget> _lastChildren = [];
   static Step? _lastStep;
@@ -24,7 +18,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: titleBar,
       body: Column(
         children: [
           Expanded(
