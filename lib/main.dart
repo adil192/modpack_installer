@@ -65,8 +65,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'adil192\'s modpack installer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeUtil.lightTheme,
-      darkTheme: ThemeUtil.darkTheme,
+      theme: lightTheme,
+      darkTheme: darkTheme,
       highContrastTheme: highContrastTheme,
       highContrastDarkTheme: highContrastDarkTheme,
       builder: (context, child) => BorderedWindow(child: child),
