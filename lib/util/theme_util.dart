@@ -19,39 +19,46 @@ abstract class ThemeUtil {
     return yaruTheme.copyWith(
       colorScheme: nesTheme.colorScheme,
       textTheme: stows.useMinecraftFont.value
-          ? _applyMinecraftFont(nesTheme.textTheme)
-          : _applyAccessibleFont(nesTheme.textTheme),
+          ? nesTheme.textTheme._withMinecraftFont()
+          : nesTheme.textTheme._withAccessibleFont(),
       extensions: [
         ...yaruTheme.extensions.values,
         ...nesTheme.extensions.values,
       ],
     );
   }
+}
 
-  static TextTheme _applyMinecraftFont(TextTheme textTheme) {
-    return textTheme.withFont(
+extension on TextTheme {
+  TextTheme _withMinecraftFont() {
+    return withFont(
       fontFamily: 'Monocraft',
       fontFamilyFallback: [
-        'Monocraft',
         'PressStart2P', // provided by nes_ui
-        ...textTheme.bodyMedium?.fontFamilyFallback ?? [],
+        'Segoe UI',
+        'Ubuntu',
+        'packages/yaru/Ubuntu',
+        'sans-serif',
       ],
     );
   }
 
-  static TextTheme _applyAccessibleFont(TextTheme textTheme) {
-    return textTheme.withFont(
-      fontFamily: 'Atkinson Hyperlegible',
+  TextTheme _withAccessibleFont() {
+    return withFont(
+      fontFamily: 'Atkinson Hyperlegible Next',
       fontFamilyFallback: [
+        'AtkinsonHyperlegibleNext',
         'Atkinson Hyperlegible',
+        'AtkinsonHyperlegible',
+        'Segoe UI',
         'Adwaita Sans',
-        // https://github.com/system-fonts/modern-font-stacks#neo-grotesque
         'Inter',
+        'system-ui',
+        'Noto Sans',
+        'Cantarell',
         'Roboto',
-        'Helvetica Neue',
-        'Arial Nova',
-        'Nimbus Sans',
-        'Arial',
+        'Ubuntu',
+        'packages/yaru/Ubuntu',
         'sans-serif',
       ],
     );
