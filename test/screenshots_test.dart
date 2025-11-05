@@ -90,8 +90,7 @@ PrismInstance getPixelmonInstance() =>
 
 Future<void> _screenshotApp(WidgetTester tester, String goldenFilePath) async {
   await tester.pumpWidget(_HomeApp());
-  await tester.loadFonts();
-  await tester.precacheImagesInWidgetTree();
+  await tester.loadAssets();
   await tester.pumpAndSettle();
   await expectLater(
     find.byType(MaterialApp),
