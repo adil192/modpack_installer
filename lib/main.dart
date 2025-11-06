@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:installer/compute/prism_launcher.dart';
+import 'package:installer/compute/self_updater.dart';
 import 'package:installer/home_page.dart';
 import 'package:installer/util/stows.dart';
 import 'package:installer/util/theme_util.dart';
@@ -16,6 +19,8 @@ Future<void> main() async {
     windowManager.ensureInitialized(),
     stows.useMinecraftFont.waitUntilRead(),
   ]);
+
+  unawaited(selfUpdater.init());
 
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString(
