@@ -52,12 +52,18 @@ class _SelfUpdater extends ChangeNotifier {
   Future<void> _fetchLatestReleaseInfo() async {
     final response = await http.read(releasesApiUrl);
     final parsed = jsonDecode(response) as Map<String, dynamic>;
+
     final latestVersionName = parsed['tag_name'] as String;
     if (latestVersionName == versionName) {
       print('No update available (latest: $latestVersionName)');
       return;
     }
-    final changelogMd = parsed['body'] as String;
+
+    String changelogMd = parsed['body'] as String;
+    final technicalLineIndex = changelogMd.indexOf('**Full Changelog**');
+    if (technicalLineIndex != -1) {
+      changelogMd = changelogMd.substring(0, technicalLineIndex).trim();
+    }
 
     final expectedExtension = switch (defaultTargetPlatform) {
       TargetPlatform.windows => '.exe',
