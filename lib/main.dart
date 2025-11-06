@@ -22,6 +22,12 @@ Future<void> main() async {
 
   unawaited(selfUpdater.init());
 
+  _addLicenses();
+
+  runApp(const MyApp());
+}
+
+void _addLicenses() {
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString(
       'assets/fonts/Monocraft.license',
@@ -29,7 +35,10 @@ Future<void> main() async {
     yield LicenseEntryWithLineBreaks(['Monocraft'], license);
   });
 
-  runApp(const MyApp());
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('assets/painting/LICENSE.txt');
+    yield LicenseEntryWithLineBreaks(['Faithful-32x-Java'], license);
+  });
 }
 
 class MyApp extends StatefulWidget {
