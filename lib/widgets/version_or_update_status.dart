@@ -67,10 +67,13 @@ class _UpdateDialog extends StatelessWidget {
           const SizedBox(height: 16),
           Align(
             alignment: AlignmentDirectional.centerEnd,
-            child: NesButton.text(
-              onPressed: _launchDownload,
-              type: NesButtonType.normal,
-              text: 'Download',
+            child: Tooltip(
+              message: availableUpdate.downloadUrl,
+              child: NesButton.text(
+                onPressed: _launchDownload,
+                type: NesButtonType.normal,
+                text: 'Download',
+              ),
             ),
           ),
         ],
