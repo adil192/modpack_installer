@@ -88,6 +88,7 @@ class PrismInstance {
       cfgManagedPackID,
       minecraftVersion,
       modLoader,
+      'salt1234',
     );
   }
 
