@@ -57,7 +57,7 @@ void main() {
       });
       testGoldens('empty', (tester) async {
         PrismLauncher.selectedInstance = PrismLauncher.selectedInstance!
-            .copyWith(cfgManagedPackID: '', preserveColors: true);
+            .copyWith(cfgManagedPackID: '');
         SelectModpackStep.modpackUrl.value = null;
         await _screenshotApp(tester, 'goldens/3_select_modpack_empty.png');
       });
@@ -77,7 +77,7 @@ PrismInstance getVanillaInstance() =>
       ..minecraftVersion = '1.20.1'
       ..modLoader = 'Fabric'
       ..modLoaderVersion = '0.17.3'
-      ..generateColors();
+      ..generatePaintingHash();
 PrismInstance getPixelmonInstance() =>
     PrismInstance.unprocessed(Directory('${stows.prismDir.value}/pixelmon'))
       ..cfgName = 'pixelmon'
@@ -86,7 +86,7 @@ PrismInstance getPixelmonInstance() =>
       ..minecraftVersion = '1.21.1'
       ..modLoader = 'NeoForge'
       ..modLoaderVersion = '21.1.209'
-      ..generateColors();
+      ..generatePaintingHash();
 
 Future<void> _screenshotApp(WidgetTester tester, String goldenFilePath) async {
   await tester.pumpWidget(_HomeApp());

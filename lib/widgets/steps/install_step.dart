@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
@@ -78,15 +77,7 @@ class _InstallStepState extends State<InstallStep> {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
     final colorScheme = ColorScheme.of(context);
-
-    final primaryColor = brightness == Brightness.light
-        ? instance.primaryColorLight
-        : instance.primaryColorDark;
-    final secondaryColor = brightness == Brightness.light
-        ? instance.secondaryColorLight
-        : instance.secondaryColorDark;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,14 +112,7 @@ class _InstallStepState extends State<InstallStep> {
         const SizedBox(height: 8),
         DecoratedBox(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                primaryColor,
-                colorScheme.surface,
-                secondaryColor,
-              ],
-              transform: GradientRotation(pi * 0.4),
-            ),
+            color: colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
           ),
           child: NesContainer(

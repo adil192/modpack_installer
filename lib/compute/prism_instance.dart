@@ -19,30 +19,7 @@ class PrismInstance {
   late var modLoader = '';
   late var modLoaderVersion = '';
 
-  var primaryColorLight = Colors.transparent;
-  var primaryColorDark = Colors.transparent;
-  var secondaryColorLight = Colors.transparent;
-  var secondaryColorDark = Colors.transparent;
-
-  void generateColors() {
-    final primaryTint = _genTintFromHash(
-      cfgName.hashCode ^ cfgExportVersion.hashCode ^ cfgManagedPackID.hashCode,
-      Colors.primaries,
-    );
-    final secondaryTint = _genTintFromHash(
-      cfgName.hashCode ^ minecraftVersion.hashCode ^ modLoaderVersion.hashCode,
-      Colors.accents,
-    );
-    primaryColorLight = Color.lerp(Colors.white, primaryTint, 0.1)!;
-    primaryColorDark = Color.lerp(Colors.black, primaryTint, 0.1)!;
-    secondaryColorLight = Color.lerp(Colors.white, secondaryTint, 0.15)!;
-    secondaryColorDark = Color.lerp(Colors.black, secondaryTint, 0.15)!;
-  }
-
-  Color _genTintFromHash(int hash, List<Color> colors) {
-    final index = (hash % colors.length).toInt();
-    return colors[index];
-  }
+  var paintingHash = 0;
 
   /// Known mod loaders mapped from their cachedName to their display name.
   static const _knownModLoaders = {
@@ -92,7 +69,7 @@ class PrismInstance {
       }
     }
 
-    instance.generateColors();
+    instance.generatePaintingHash();
 
     print(
       '${instance.cfgName} instance found: '
@@ -105,6 +82,15 @@ class PrismInstance {
     return instance;
   }
 
+  void generatePaintingHash() {
+    paintingHash = Object.hash(
+      cfgName,
+      cfgManagedPackID,
+      minecraftVersion,
+      modLoader,
+    );
+  }
+
   PrismInstance copyWith({
     Directory? instanceDir,
     String? cfgName,
@@ -113,7 +99,7 @@ class PrismInstance {
     String? minecraftVersion,
     String? modLoader,
     String? modLoaderVersion,
-    bool preserveColors = false,
+    int? paintingHash,
   }) {
     final newInstance =
         PrismInstance.unprocessed(instanceDir ?? this.instanceDir)
@@ -123,11 +109,7 @@ class PrismInstance {
           ..minecraftVersion = minecraftVersion ?? this.minecraftVersion
           ..modLoader = modLoader ?? this.modLoader
           ..modLoaderVersion = modLoaderVersion ?? this.modLoaderVersion
-          ..primaryColorLight = primaryColorLight
-          ..primaryColorDark = primaryColorDark
-          ..secondaryColorLight = secondaryColorLight
-          ..secondaryColorDark = secondaryColorDark;
-    if (!preserveColors) newInstance.generateColors();
+          ..paintingHash = paintingHash ?? this.paintingHash;
     return newInstance;
   }
 }

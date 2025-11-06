@@ -125,7 +125,7 @@ class _Choose extends StatelessWidget {
           LayoutBuilder(
             builder: (context, constraints) {
               return _InstanceCards(
-                cardWidth: constraints.maxWidth < 400
+                cardWidth: constraints.maxWidth < 600
                     ? double.infinity
                     : (constraints.maxWidth - 8) / 2,
                 instances: instances,

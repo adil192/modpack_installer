@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:installer/compute/prism_instance.dart';
+import 'package:installer/widgets/painting.dart';
 import 'package:nes_ui/nes_ui.dart';
 
 class MinecraftInstanceCard extends StatelessWidget {
@@ -10,41 +9,26 @@ class MinecraftInstanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final colorScheme = ColorScheme.of(context);
-
-    final primaryColor = brightness == Brightness.light
-        ? instance.primaryColorLight
-        : instance.primaryColorDark;
-    final secondaryColor = brightness == Brightness.light
-        ? instance.secondaryColorLight
-        : instance.secondaryColorDark;
-
     return Tooltip(
       message: instance.instanceDir.path,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [primaryColor, colorScheme.surface, secondaryColor],
-            transform: GradientRotation(pi * 0.4),
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
         child: NesContainer(
           backgroundColor: Colors.transparent,
-          child: _RowOrColumn(
+          padding: const EdgeInsets.all(16),
+          child: _ArrangedCard(
             title: Text(
               instance.cfgName,
               style: TextTheme.of(context).titleMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
+            paintingHash: instance.paintingHash,
             chips: [
               if (instance.minecraftVersion.isNotEmpty)
-                _ComponentChip(
-                  instance.minecraftVersion,
-                  borderColor: primaryColor,
-                ),
+                _ComponentChip(instance.minecraftVersion),
               if (instance.modLoader.isNotEmpty)
-                _ComponentChip(instance.modLoader, borderColor: primaryColor),
+                _ComponentChip(instance.modLoader),
             ],
           ),
         ),
@@ -54,9 +38,8 @@ class MinecraftInstanceCard extends StatelessWidget {
 }
 
 class _ComponentChip extends StatelessWidget {
-  const _ComponentChip(this.component, {required this.borderColor});
+  const _ComponentChip(this.component);
   final String component;
-  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -67,39 +50,64 @@ class _ComponentChip extends StatelessWidget {
         colorScheme.surface,
         0.95,
       )!,
-      borderColor: Color.lerp(colorScheme.inverseSurface, borderColor, 0.8)!,
+      borderColor: Color.lerp(
+        colorScheme.inverseSurface,
+        colorScheme.shadow,
+        0.8,
+      )!,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Text(component, style: TextTheme.of(context).bodyMedium),
     );
   }
 }
 
-class _RowOrColumn extends StatelessWidget {
-  const _RowOrColumn({required this.title, required this.chips});
+class _ArrangedCard extends StatelessWidget {
+  const _ArrangedCard({
+    required this.title,
+    required this.paintingHash,
+    required this.chips,
+  });
   final Widget title;
+  final int paintingHash;
   final List<Widget> chips;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 400) {
+        if (constraints.maxWidth > 270) {
           return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 8,
             children: [
-              Expanded(child: title),
-              const SizedBox(width: 8),
-              ...chips,
+              Painting(
+                paintingHash: paintingHash,
+                size: constraints.maxWidth > 400 ? 64 : 48,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 8,
+                  children: [
+                    title,
+                    Wrap(spacing: 8, children: chips),
+                  ],
+                ),
+              ),
             ],
           );
         } else {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 8,
             children: [
-              title,
-              const SizedBox(height: 8),
-              Wrap(spacing: 8, runSpacing: 8, children: chips),
+              Row(
+                spacing: 8,
+                children: [
+                  Painting(paintingHash: paintingHash, size: 38),
+                  Expanded(child: title),
+                ],
+              ),
+              Wrap(spacing: 8, runSpacing: 4, children: chips),
             ],
           );
         }

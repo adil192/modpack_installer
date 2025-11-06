@@ -41,6 +41,7 @@ flutter:
 
   assets:
     - assets/fonts/Monocraft.license
+    - assets/painting/
     - pubspec.yaml
 
   fonts:
