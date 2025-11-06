@@ -2,7 +2,7 @@
 
 A small tool to easily update your modpacks.
 
-<img width="1266" height="1181" src="https://github.com/user-attachments/assets/49a01afe-0920-4dac-bad4-fb1784da1e22" />
+<img width="1266" height="1181" src="https://raw.githubusercontent.com/adil192/modpack_installer/refs/heads/main/test/goldens/2_select_instance_non_empty.png" />
 
 ## Credits
 
