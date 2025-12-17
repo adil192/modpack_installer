@@ -23,7 +23,7 @@ dependencies:
   path_provider: ^2.1.5
   shared_preferences: ^2.5.3
   stow_plain: ^0.5.1
-  yaru: ^8.3.0
+  yaru: ^9.0.0
   window_manager: ^0.5.1
   http: ^1.5.0
   url_launcher: ^6.3.2
@@ -34,7 +34,7 @@ dev_dependencies:
 
   flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
-  golden_screenshot: ^8.0.1
+  golden_screenshot: ^9.1.2
 
 flutter:
   uses-material-design: true
