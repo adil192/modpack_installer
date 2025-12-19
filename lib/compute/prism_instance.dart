@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 
@@ -82,14 +83,28 @@ class PrismInstance {
     return instance;
   }
 
+  /// Generates a hash used to assign a painting image to this instance.
+  ///
+  /// This hash will be the same provided the instance's fields are unchanged.
+  ///
+  /// We avoid [Object.hash] here to ensure consistency across app restarts.
   void generatePaintingHash() {
-    paintingHash = Object.hash(
+    final serialized = [
       cfgName,
-      cfgManagedPackID,
       minecraftVersion,
       modLoader,
-      'salt1234',
-    );
+      cfgManagedPackID,
+      'salt123',
+    ].join('|');
+
+    final digest = sha256.convert(utf8.encode(serialized)).bytes;
+
+    var packed = 0;
+    for (var i = 0; i < 8; i++) {
+      packed = (packed << 8) | digest[i];
+    }
+
+    paintingHash = packed;
   }
 
   PrismInstance copyWith({
