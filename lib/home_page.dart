@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
 
                 return ListView(
                   reverse: true,
-                  padding: EdgeInsets.symmetric(
+                  padding: .symmetric(
                     horizontal: paddingForMaxWidth(
                       MediaQuery.sizeOf(context).width,
                     ),
@@ -66,32 +66,32 @@ class HomePage extends StatelessWidget {
   Iterable<Widget> getChildren(BuildContext context, List<Step> steps) sync* {
     for (final step in Step.values.reversed) {
       switch (step) {
-        case Step.welcome:
+        case .welcome:
           yield _ConstrainedStep(
             show: steps.contains(Step.welcome),
             child: WelcomeStep(key: _keys[Step.welcome]),
           );
-        case Step.findPrismLauncher:
+        case .findPrismLauncher:
           yield _ConstrainedStep(
             show: steps.contains(Step.findPrismLauncher),
             child: FindPrismLauncherStep(key: _keys[Step.findPrismLauncher]),
           );
-        case Step.selectInstance:
+        case .selectInstance:
           yield _ConstrainedStep(
             show: steps.contains(Step.selectInstance),
             child: SelectInstanceStep(key: _keys[Step.selectInstance]),
           );
-        case Step.selectModpack:
+        case .selectModpack:
           yield _ConstrainedStep(
             show: steps.contains(Step.selectModpack),
             child: SelectModpackStep(key: _keys[Step.selectModpack]),
           );
-        case Step.download:
+        case .download:
           yield _ConstrainedStep(
             show: steps.contains(Step.download),
             child: DownloadStep(key: _keys[Step.download]),
           );
-        case Step.install:
+        case .install:
           yield _ConstrainedStep(
             show: steps.contains(Step.install),
             child: InstallStep(key: _keys[Step.install]),
@@ -115,13 +115,10 @@ class _ConstrainedStep extends StatelessWidget {
       opacity: show ? 1 : 0,
       child: show
           ? SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 32),
-                child: child,
-              ),
+              width: .infinity,
+              child: Padding(padding: const .only(bottom: 32), child: child),
             )
-          : SizedBox(width: double.infinity, height: 1),
+          : SizedBox(width: .infinity, height: 1),
     );
   }
 }

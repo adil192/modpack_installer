@@ -6,18 +6,18 @@ import 'package:nes_ui/nes_ui.dart';
 import 'package:yaru/yaru.dart';
 
 abstract class ThemeUtil {
-  static ThemeData get lightTheme => _getTheme(Brightness.light);
-  static ThemeData get darkTheme => _getTheme(Brightness.dark);
+  static ThemeData get lightTheme => _getTheme(.light);
+  static ThemeData get darkTheme => _getTheme(.dark);
 
   static ThemeData _getTheme(Brightness brightness) {
-    final yaruTheme = brightness == Brightness.light
+    final yaruTheme = brightness == .light
         ? YaruVariant.adwaitaGreen.theme
         : YaruVariant.adwaitaGreen.darkTheme;
     final typography = Typography.material2021(
       platform: defaultTargetPlatform,
       colorScheme: yaruTheme.colorScheme,
     );
-    final baseTextTheme = brightness == Brightness.light
+    final baseTextTheme = brightness == .light
         ? typography.black
         : typography.white;
     return flutterNesTheme(

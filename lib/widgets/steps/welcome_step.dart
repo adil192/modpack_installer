@@ -6,16 +6,16 @@ class WelcomeStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    stepController.markStepComplete(Step.welcome);
+    stepController.markStepComplete(.welcome);
     return Column(
       children: [
         FittedBox(
-          fit: BoxFit.scaleDown,
+          fit: .scaleDown,
           child: Text(
             'Welcome to adil192\'s\n'
             'modpack installer!',
             style: TextTheme.of(context).displaySmall,
-            textAlign: TextAlign.center,
+            textAlign: .center,
             maxLines: 2,
           ),
         ),

@@ -20,7 +20,7 @@ class VersionOrUpdateStatus extends StatelessWidget {
         final availableUpdate = selfUpdater.availableUpdate;
         if (availableUpdate == null) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const .symmetric(horizontal: 8),
             child: Text(versionName),
           );
         }
@@ -33,7 +33,7 @@ class VersionOrUpdateStatus extends StatelessWidget {
                   _UpdateDialog(availableUpdate: availableUpdate),
             );
           },
-          type: NesButtonType.normal,
+          type: .normal,
           text: 'Update available: ${availableUpdate.versionName}',
         );
       },
@@ -56,8 +56,8 @@ class _UpdateDialog extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return NesDialog(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: .min,
+        crossAxisAlignment: .start,
         children: [
           Text('New version available!', style: textTheme.titleLarge),
           Text('${selfUpdater.versionName} → ${availableUpdate.versionName}'),
@@ -71,7 +71,7 @@ class _UpdateDialog extends StatelessWidget {
               message: availableUpdate.downloadUrl,
               child: NesButton.text(
                 onPressed: _launchDownload,
-                type: NesButtonType.normal,
+                type: .normal,
                 text: 'Download',
               ),
             ),

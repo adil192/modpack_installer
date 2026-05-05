@@ -8,7 +8,7 @@ class UseMinecraftFontCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return MergeSemantics(
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: [
           ValueListenableBuilder(
             valueListenable: stows.useMinecraftFont,

@@ -30,7 +30,7 @@ class SelectModpackStep extends StatelessWidget {
   static void _select(Uri modpackUrl) {
     print('SelectModpackStep: selected `$modpackUrl`');
     SelectModpackStep.modpackUrl.value = modpackUrl;
-    stepController.markStepComplete(Step.selectModpack);
+    stepController.markStepComplete(.selectModpack);
   }
 
   static void deselect() {
@@ -40,7 +40,7 @@ class SelectModpackStep extends StatelessWidget {
           .toString();
       SelectModpackStep.modpackUrl.value = null;
     }
-    stepController.goBackToStep(Step.selectModpack);
+    stepController.goBackToStep(.selectModpack);
   }
 
   @override
@@ -55,7 +55,7 @@ class SelectModpackStep extends StatelessWidget {
           layoutBuilder: topLeftLayoutBuilder,
           child: SizedBox(
             key: ValueKey(modpackUrl.value),
-            width: double.infinity,
+            width: .infinity,
             child: child,
           ),
         );
@@ -67,7 +67,7 @@ class SelectModpackStep extends StatelessWidget {
     if (modpackUrl == null) {
       return _ChooseModpack(select: _select);
     } else {
-      stepController.markStepComplete(Step.selectModpack);
+      stepController.markStepComplete(.selectModpack);
       return _Success(modpackUrl, deselect: deselect);
     }
   }
@@ -81,7 +81,7 @@ class _Success extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Row(
           spacing: 8,
@@ -90,7 +90,7 @@ class _Success extends StatelessWidget {
               child: Text(
                 'Selected modpack!',
                 style: TextTheme.of(context).headlineSmall,
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
             ),
             NesIconButton(
@@ -116,7 +116,7 @@ class _Success extends StatelessWidget {
                 modpackUrl.toString(),
                 style: TextTheme.of(context).bodyMedium,
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                overflow: .ellipsis,
               ),
             ),
           ],
@@ -162,9 +162,9 @@ class _ChooseModpackState extends State<_ChooseModpack> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      autovalidateMode: AutovalidateMode.onUnfocus,
+      autovalidateMode: .onUnfocus,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: [
           Text('Select a modpack', style: TextTheme.of(context).headlineSmall),
           const SizedBox(height: 8),
@@ -181,9 +181,9 @@ class _ChooseModpackState extends State<_ChooseModpack> {
           ),
           const SizedBox(height: 8),
           Align(
-            alignment: Alignment.centerRight,
+            alignment: .centerRight,
             child: NesButton(
-              type: NesButtonType.normal,
+              type: .normal,
               onPressed: () {
                 if (_formKey.currentState?.validate() ?? false) {
                   trySelect(context, _urlFieldController.text);

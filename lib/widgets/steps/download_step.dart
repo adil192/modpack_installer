@@ -50,14 +50,14 @@ class _DownloadStepState extends State<DownloadStep> {
     final status = Downloader.status.value;
     final progress = Downloader.progress.value;
 
-    final finishedDownloading = status == TaskStatus.complete;
+    final finishedDownloading = status == .complete;
     final finishedExtracting = finishedDownloading && Downloader.hasExtracted;
     if (finishedExtracting) {
-      stepController.markStepComplete(Step.download);
+      stepController.markStepComplete(.download);
     }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Text(
           finishedExtracting
@@ -66,20 +66,18 @@ class _DownloadStepState extends State<DownloadStep> {
               ? 'Extracting...'
               : 'Downloading...',
           style: TextTheme.of(context).headlineSmall,
-          textAlign: TextAlign.center,
+          textAlign: .center,
         ),
         const SizedBox(height: 8),
         Row(
           children: [
-            Expanded(
-              child: Text(status.name.capitalize(), textAlign: TextAlign.left),
-            ),
+            Expanded(child: Text(status.name.capitalize(), textAlign: .left)),
             Expanded(
               child: Text(
                 (progress != null && progress.hasNetworkSpeed)
                     ? progress.networkSpeedAsString
                     : '',
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
             ),
             Expanded(
@@ -87,7 +85,7 @@ class _DownloadStepState extends State<DownloadStep> {
                 status.isFinalState
                     ? progress?.expectedFileSizeAsString ?? ''
                     : progress?.timeRemainingAsString ?? '',
-                textAlign: TextAlign.right,
+                textAlign: .right,
               ),
             ),
           ],
@@ -100,32 +98,32 @@ class _DownloadStepState extends State<DownloadStep> {
         if (!finishedDownloading && status.isFinalState) ...[
           const SizedBox(height: 8),
           SizedBox(
-            width: double.infinity,
+            width: .infinity,
             child: Text(
               'The download failed!\n'
               'Please check your url and internet connection and try again.',
-              textAlign: TextAlign.end,
+              textAlign: .end,
             ),
           ),
           const SizedBox(height: 8),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: .end,
             spacing: 8,
             children: [
               Flexible(
                 child: NesButton(
-                  type: NesButtonType.normal,
+                  type: .normal,
                   onPressed: () {
                     Downloader.cancel();
                     SelectModpackStep.deselect();
-                    stepController.goBackToStep(Step.selectModpack);
+                    stepController.goBackToStep(.selectModpack);
                   },
                   child: const Text('Back'),
                 ),
               ),
               Flexible(
                 child: NesButton(
-                  type: NesButtonType.normal,
+                  type: .normal,
                   onPressed: () {
                     Downloader.cancel();
                     Downloader.startDownload(

@@ -80,12 +80,12 @@ class _InstallStepState extends State<InstallStep> {
     final colorScheme = ColorScheme.of(context);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Text(
           'Install!',
           style: TextTheme.of(context).headlineSmall,
-          textAlign: TextAlign.center,
+          textAlign: .center,
         ),
         const SizedBox(height: 8),
         Text(
@@ -99,10 +99,10 @@ class _InstallStepState extends State<InstallStep> {
             color: colorScheme.surface,
             borderRadius: BorderRadius.circular(8),
           ),
-          margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          margin: const .symmetric(horizontal: 32, vertical: 16),
           constraints: const BoxConstraints(minHeight: 200, maxHeight: 400),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(32),
+            padding: const .all(32),
             child: GptMarkdown(
               changelogContent,
               style: TextTheme.of(context).bodyMedium,
@@ -116,15 +116,15 @@ class _InstallStepState extends State<InstallStep> {
             borderRadius: BorderRadius.circular(16),
           ),
           child: NesContainer(
-            padding: EdgeInsets.zero,
+            padding: .zero,
             backgroundColor: Colors.transparent,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: [
                 SizedBox(
-                  width: double.infinity,
+                  width: .infinity,
                   child: NesButton(
-                    type: NesButtonType.primary,
+                    type: .primary,
                     onPressed: installer.isInstalling
                         ? null
                         : installer.startInstall,
@@ -140,11 +140,11 @@ class _InstallStepState extends State<InstallStep> {
                   ),
                   child: AnimatedSize(
                     duration: const Duration(milliseconds: 300),
-                    alignment: Alignment.topCenter,
+                    alignment: .topCenter,
                     child: installer.log.isEmpty
-                        ? const SizedBox(width: double.infinity)
+                        ? const SizedBox(width: .infinity)
                         : Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const .all(8.0),
                             child: NesContainer(
                               label: 'Log',
                               child: ListView.builder(

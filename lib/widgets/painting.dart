@@ -14,8 +14,8 @@ class Painting extends StatelessWidget {
           image: paintings[index],
           width: size,
           height: size,
-          fit: BoxFit.cover,
-          filterQuality: FilterQuality.none, // Pixelated
+          fit: .cover,
+          filterQuality: .none, // Pixelated
         ),
         // The paintings are different resolutions leading to inconsistent borders.
         // Add borders here to make them look more uniform.

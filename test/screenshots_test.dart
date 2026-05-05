@@ -15,7 +15,7 @@ void main() {
   group('Screenshots', () {
     group('findPrismLauncher', () {
       testGoldens('error', (tester) async {
-        stepController.markStepComplete(Step.welcome, delayNext: false);
+        stepController.markStepComplete(.welcome, delayNext: false);
         stows.prismDir.value = null;
         await _screenshotApp(tester, 'goldens/1_find_prism_launcher_error.png');
       });
@@ -23,12 +23,9 @@ void main() {
 
     group('selectInstance', () {
       setUp(() {
-        stepController.markStepComplete(Step.welcome, delayNext: false);
+        stepController.markStepComplete(.welcome, delayNext: false);
         stows.prismDir.value = '/home/tester/.local/share/prismlauncher';
-        stepController.markStepComplete(
-          Step.findPrismLauncher,
-          delayNext: false,
-        );
+        stepController.markStepComplete(.findPrismLauncher, delayNext: false);
       });
       testGoldens('empty', (tester) async {
         PrismLauncher.instances = [];
@@ -42,15 +39,12 @@ void main() {
 
     group('selectModpack', () {
       setUp(() {
-        stepController.markStepComplete(Step.welcome, delayNext: false);
+        stepController.markStepComplete(.welcome, delayNext: false);
         stows.prismDir.value = '/home/tester/.local/share/prismlauncher';
-        stepController.markStepComplete(
-          Step.findPrismLauncher,
-          delayNext: false,
-        );
+        stepController.markStepComplete(.findPrismLauncher, delayNext: false);
         PrismLauncher.instances = [getVanillaInstance(), getPixelmonInstance()];
         PrismLauncher.selectedInstance = PrismLauncher.instances!.first;
-        stepController.markStepComplete(Step.selectInstance, delayNext: false);
+        stepController.markStepComplete(.selectInstance, delayNext: false);
       });
       testGoldens('empty', (tester) async {
         PrismLauncher.selectedInstance = PrismLauncher.selectedInstance!

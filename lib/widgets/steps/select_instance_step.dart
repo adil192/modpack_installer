@@ -18,7 +18,7 @@ class _SelectInstanceStepState extends State<SelectInstanceStep> {
   void _select(PrismInstance instance) {
     print('SelectInstanceStep: selected `${instance.cfgName}`');
     PrismLauncher.selectedInstance = instance;
-    stepController.markStepComplete(Step.selectInstance);
+    stepController.markStepComplete(.selectInstance);
     if (mounted) setState(() {});
   }
 
@@ -28,7 +28,7 @@ class _SelectInstanceStepState extends State<SelectInstanceStep> {
     );
     PrismLauncher.selectedInstance = null;
     SelectModpackStep.deselect();
-    stepController.goBackToStep(Step.selectInstance);
+    stepController.goBackToStep(.selectInstance);
     if (mounted) setState(() {});
   }
 
@@ -46,7 +46,7 @@ class _SelectInstanceStepState extends State<SelectInstanceStep> {
   Widget _unanimatedBuild(BuildContext context) {
     final selectedInstance = PrismLauncher.selectedInstance;
     if (selectedInstance != null) {
-      stepController.markStepComplete(Step.selectInstance);
+      stepController.markStepComplete(.selectInstance);
       return _Success(selectedInstance, deselect: _deselect);
     }
 
@@ -63,7 +63,7 @@ class _Success extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Row(
           spacing: 8,
@@ -72,7 +72,7 @@ class _Success extends StatelessWidget {
               child: Text(
                 'Selected instance!',
                 style: TextTheme.of(context).headlineSmall,
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
             ),
             NesIconButton(
@@ -87,7 +87,7 @@ class _Success extends StatelessWidget {
         NesPressable(
           onPress: deselect,
           child: SizedBox(
-            width: double.infinity,
+            width: .infinity,
             child: MinecraftInstanceCard(instance: selectedInstance),
           ),
         ),
@@ -105,12 +105,12 @@ class _Choose extends StatelessWidget {
   Widget build(BuildContext context) {
     final instances = this.instances;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Text(
           'Select an instance',
           style: TextTheme.of(context).headlineSmall,
-          textAlign: TextAlign.center,
+          textAlign: .center,
         ),
         const SizedBox(height: 8),
         if (instances == null)
@@ -126,7 +126,7 @@ class _Choose extends StatelessWidget {
             builder: (context, constraints) {
               return _InstanceCards(
                 cardWidth: constraints.maxWidth < 600
-                    ? double.infinity
+                    ? .infinity
                     : (constraints.maxWidth - 8) / 2,
                 instances: instances,
                 select: select,
@@ -181,14 +181,14 @@ class _InstanceCardsState extends State<_InstanceCards> {
           ),
         if (hiddenInstances > 0)
           SizedBox(
-            width: double.infinity,
+            width: .infinity,
             child: NesButton(
               onPressed: () {
                 setState(() {
                   showAllInstances = !showAllInstances;
                 });
               },
-              type: NesButtonType.normal,
+              type: .normal,
               child: Text('Show $hiddenInstances more instances'),
             ),
           ),

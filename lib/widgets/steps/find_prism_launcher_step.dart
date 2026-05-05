@@ -13,7 +13,7 @@ class FindPrismLauncherStep extends StatelessWidget {
     if (prismDir == null) {
       return _Error();
     } else {
-      stepController.markStepComplete(Step.findPrismLauncher);
+      stepController.markStepComplete(.findPrismLauncher);
       return _Success(prismDir);
     }
   }
@@ -26,12 +26,12 @@ class _Success extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Text(
           'Located Prism Launcher!',
           style: TextTheme.of(context).headlineSmall,
-          textAlign: TextAlign.center,
+          textAlign: .center,
         ),
         const SizedBox(height: 8),
         Row(
@@ -48,7 +48,7 @@ class _Success extends StatelessWidget {
                 prismDir,
                 style: TextTheme.of(context).bodyMedium,
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                overflow: .ellipsis,
               ),
             ),
           ],
@@ -64,18 +64,18 @@ class _Error extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: [
         Text(
           'Couldn\'t find Prism Launcher',
           style: Theme.of(context).textTheme.headlineSmall,
-          textAlign: TextAlign.center,
+          textAlign: .center,
         ),
         const SizedBox(height: 8),
         SelectableText(
           'Please ensure Prism Launcher is installed and has been run at least once.',
           style: Theme.of(context).textTheme.bodyMedium,
-          textAlign: TextAlign.center,
+          textAlign: .center,
         ),
       ],
     );

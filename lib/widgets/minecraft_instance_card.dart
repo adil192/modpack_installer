@@ -15,13 +15,13 @@ class MinecraftInstanceCard extends StatelessWidget {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
         child: NesContainer(
           backgroundColor: Colors.transparent,
-          padding: const EdgeInsets.all(16),
+          padding: const .all(16),
           child: _ArrangedCard(
             title: Text(
               instance.cfgName,
               style: TextTheme.of(context).titleMedium,
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: .ellipsis,
             ),
             paintingHash: instance.paintingHash,
             chips: [
@@ -55,7 +55,7 @@ class _ComponentChip extends StatelessWidget {
         colorScheme.shadow,
         0.8,
       )!,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const .symmetric(horizontal: 16, vertical: 8),
       child: Text(component, style: TextTheme.of(context).bodyMedium),
     );
   }
@@ -85,7 +85,7 @@ class _ArrangedCard extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   spacing: 8,
                   children: [
                     title,
@@ -97,7 +97,7 @@ class _ArrangedCard extends StatelessWidget {
           );
         } else {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: .start,
             spacing: 8,
             children: [
               Row(

@@ -7,10 +7,7 @@ Widget topLeftLayoutBuilder(
   List<Widget> previousChildren,
 ) {
   return Stack(
-    alignment: Alignment.topLeft,
-    children: <Widget>[
-      ...previousChildren,
-      if (currentChild != null) currentChild,
-    ],
+    alignment: .topLeft,
+    children: [...previousChildren, ?currentChild],
   );
 }
