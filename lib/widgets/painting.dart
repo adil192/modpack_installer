@@ -22,14 +22,20 @@ class Painting extends StatelessWidget {
         Positioned.fill(
           child: Container(
             foregroundDecoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFF503405), width: size / 16),
+              border: Border.all(
+                color: const Color(0xFF503405),
+                width: size / 16,
+              ),
             ),
           ),
         ),
         Positioned.fill(
           child: Container(
             foregroundDecoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFF491704), width: size / 32),
+              border: Border.all(
+                color: const Color(0xFF491704),
+                width: size / 32,
+              ),
             ),
           ),
         ),
