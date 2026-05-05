@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:installer/compute/downloader.dart';
 import 'package:installer/compute/installer.dart';
@@ -9,7 +10,7 @@ import 'package:installer/compute/prism_launcher.dart';
 import 'package:nes_ui/nes_ui.dart';
 import 'package:path/path.dart' as p;
 
-class InstallStep extends StatefulWidget {
+class InstallStep extends StatefulHookWidget {
   const InstallStep({super.key});
 
   @override
@@ -48,18 +49,6 @@ class _InstallStepState extends State<InstallStep> {
     return prevIndex;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    installer.addListener(_onInstallerUpdate);
-  }
-
-  @override
-  void dispose() {
-    installer.removeListener(_onInstallerUpdate);
-    super.dispose();
-  }
-
   bool _shownConfetti = false;
 
   void _onInstallerUpdate() {
@@ -72,13 +61,14 @@ class _InstallStepState extends State<InstallStep> {
     } else if (!installer.finishedInstalling) {
       _shownConfetti = false;
     }
-    if (mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.of(context);
+    useListenable(installer);
+    useListenableSelector(installer, _onInstallerUpdate);
 
+    final colorScheme = ColorScheme.of(context);
     return Column(
       crossAxisAlignment: .start,
       children: [

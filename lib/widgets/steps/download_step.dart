@@ -1,54 +1,23 @@
 import 'package:background_downloader/background_downloader.dart';
 import 'package:basics/basics.dart';
 import 'package:flutter/material.dart' hide Step;
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:installer/compute/downloader.dart';
 import 'package:installer/compute/step_controller.dart';
 import 'package:installer/widgets/steps/select_modpack_step.dart';
 import 'package:nes_ui/nes_ui.dart';
 
-class DownloadStep extends StatefulWidget {
+class DownloadStep extends HookWidget {
   const DownloadStep({super.key});
 
   @override
-  State<DownloadStep> createState() => _DownloadStepState();
-}
-
-class _DownloadStepState extends State<DownloadStep> {
-  @override
-  void initState() {
-    super.initState();
-    Downloader.startDownload(SelectModpackStep.modpackUrl.value!);
-    Downloader.progress.addListener(_onProgressUpdate);
-    Downloader.status.addListener(_onStatusUpdate);
-  }
-
-  void _onProgressUpdate() {
-    final progressUpdate = Downloader.progress.value;
-    if (progressUpdate == null) return;
-
-    print('DownloadStep: Progress update: $progressUpdate');
-
-    if (mounted) setState(() {});
-  }
-
-  void _onStatusUpdate() {
-    print('DownloadStep: Status update: ${Downloader.status.value}');
-
-    if (mounted) setState(() {});
-  }
-
-  @override
-  void dispose() {
-    Downloader.progress.removeListener(_onProgressUpdate);
-    Downloader.status.removeListener(_onStatusUpdate);
-    Downloader.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final status = Downloader.status.value;
-    final progress = Downloader.progress.value;
+    final status = useValueListenable(Downloader.status);
+    final progress = useValueListenable(Downloader.progress);
+    useEffect(() {
+      Downloader.startDownload(SelectModpackStep.modpackUrl.value!);
+      return Downloader.cancel;
+    }, const []);
 
     final finishedDownloading = status == .complete;
     final finishedExtracting = finishedDownloading && Downloader.hasExtracted;

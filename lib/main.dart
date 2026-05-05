@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:installer/compute/prism_launcher.dart';
 import 'package:installer/compute/self_updater.dart';
 import 'package:installer/home_page.dart';
@@ -40,43 +41,26 @@ void _addLicenses() {
   });
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends HookWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    stows.useMinecraftFont.addListener(_onFontPreferenceChanged);
-  }
-
-  @override
-  void dispose() {
-    stows.useMinecraftFont.removeListener(_onFontPreferenceChanged);
-    super.dispose();
-  }
-
-  void _onFontPreferenceChanged() {
-    if (mounted) setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     final platformBrightness = MediaQuery.platformBrightnessOf(context);
     final highContrast = MediaQuery.highContrastOf(context);
+    final useMinecraftFont = useValueListenable(stows.useMinecraftFont);
 
-    var theme = ThemeUtil.getTheme(platformBrightness);
-    if (highContrast) {
-      theme = theme.copyWith(
-        colorScheme: platformBrightness == .light
-            ? yaruHighContrastLight.colorScheme
-            : yaruHighContrastDark.colorScheme,
-      );
-    }
+    final theme = useMemoized(() {
+      var theme = ThemeUtil.getTheme(platformBrightness);
+      if (highContrast) {
+        theme = theme.copyWith(
+          colorScheme: platformBrightness == .light
+              ? yaruHighContrastLight.colorScheme
+              : yaruHighContrastDark.colorScheme,
+        );
+      }
+      return theme;
+    }, [platformBrightness, highContrast, useMinecraftFont]);
 
     return MaterialApp(
       title: 'adil192\'s modpack installer',
