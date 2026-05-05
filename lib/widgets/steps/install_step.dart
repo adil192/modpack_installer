@@ -97,7 +97,7 @@ class _InstallStepState extends State<InstallStep> {
         Container(
           decoration: BoxDecoration(
             color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: .all(.circular(8)),
           ),
           margin: const .symmetric(horizontal: 32, vertical: 16),
           constraints: const BoxConstraints(minHeight: 200, maxHeight: 400),
@@ -113,7 +113,7 @@ class _InstallStepState extends State<InstallStep> {
         DecoratedBox(
           decoration: BoxDecoration(
             color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: .all(.circular(16)),
           ),
           child: NesContainer(
             padding: .zero,
