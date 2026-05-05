@@ -66,22 +66,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final lightTheme = ThemeUtil.lightTheme;
-    final darkTheme = ThemeUtil.darkTheme;
-    final highContrastTheme = lightTheme.copyWith(
-      colorScheme: yaruHighContrastLight.colorScheme,
-    );
-    final highContrastDarkTheme = darkTheme.copyWith(
-      colorScheme: yaruHighContrastDark.colorScheme,
-    );
+    final platformBrightness = MediaQuery.platformBrightnessOf(context);
+    final highContrast = MediaQuery.highContrastOf(context);
+
+    var theme = ThemeUtil.getTheme(platformBrightness);
+    if (highContrast) {
+      theme = theme.copyWith(
+        colorScheme: platformBrightness == .light
+            ? yaruHighContrastLight.colorScheme
+            : yaruHighContrastDark.colorScheme,
+      );
+    }
 
     return MaterialApp(
       title: 'adil192\'s modpack installer',
       debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      highContrastTheme: highContrastTheme,
-      highContrastDarkTheme: highContrastDarkTheme,
+      theme: theme,
       home: const HomePage(),
     );
   }

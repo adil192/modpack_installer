@@ -1,3 +1,4 @@
+import 'package:dynamic_yaru/dynamic_yaru.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:installer/util/stows.dart';
@@ -6,13 +7,19 @@ import 'package:nes_ui/nes_ui.dart';
 import 'package:yaru/yaru.dart';
 
 abstract class ThemeUtil {
-  static ThemeData get lightTheme => _getTheme(.light);
-  static ThemeData get darkTheme => _getTheme(.dark);
+  static Brightness? _lastBrightness;
 
-  static ThemeData _getTheme(Brightness brightness) {
+  static ThemeData getTheme(Brightness brightness) {
+    if (brightness != _lastBrightness) {
+      _lastBrightness = brightness;
+      DynamicYaru.refresh();
+    }
+
     final yaruTheme = brightness == .light
         ? YaruVariant.adwaitaGreen.theme
         : YaruVariant.adwaitaGreen.darkTheme;
+    final dynamicYaru = DynamicYaru.getTheme();
+
     final typography = Typography.material2021(
       platform: defaultTargetPlatform,
       colorScheme: yaruTheme.colorScheme,
@@ -20,7 +27,8 @@ abstract class ThemeUtil {
     final baseTextTheme = brightness == .light
         ? typography.black
         : typography.white;
-    return flutterNesTheme(
+
+    final nesTheme = flutterNesTheme(
       primaryColor: yaruTheme.colorScheme.primary,
       brightness: yaruTheme.brightness,
       textTheme: stows.useMinecraftFont.value
@@ -28,6 +36,14 @@ abstract class ThemeUtil {
           : baseTextTheme._withAccessibleFont(),
       customExtensions: [...yaruTheme.extensions.values],
     );
+    if (dynamicYaru != null && dynamicYaru.brightness == brightness) {
+      return nesTheme.copyWith(
+        scaffoldBackgroundColor: dynamicYaru.scaffoldBackgroundColor,
+        colorScheme: dynamicYaru.colorScheme,
+      );
+    } else {
+      return nesTheme;
+    }
   }
 }
 

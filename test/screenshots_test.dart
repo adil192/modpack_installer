@@ -97,7 +97,7 @@ class _HomeApp extends StatelessWidget {
     return ScreenshotApp.withConditionalTitlebar(
       device: GoldenScreenshotDevices.flathub.device,
       title: "adil192's modpack installer",
-      theme: ThemeUtil.lightTheme,
+      theme: ThemeUtil.getTheme(.light),
       home: const HomePage(),
     );
   }
