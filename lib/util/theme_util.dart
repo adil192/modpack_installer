@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:installer/util/stows.dart';
 import 'package:installer/util/text_theme_extension.dart';
@@ -12,19 +13,20 @@ abstract class ThemeUtil {
     final yaruTheme = brightness == Brightness.light
         ? YaruVariant.adwaitaGreen.theme
         : YaruVariant.adwaitaGreen.darkTheme;
-    final nesTheme = flutterNesTheme(
+    final typography = Typography.material2021(
+      platform: defaultTargetPlatform,
+      colorScheme: yaruTheme.colorScheme,
+    );
+    final baseTextTheme = brightness == Brightness.light
+        ? typography.black
+        : typography.white;
+    return flutterNesTheme(
       primaryColor: yaruTheme.colorScheme.primary,
       brightness: yaruTheme.brightness,
-    );
-    return yaruTheme.copyWith(
-      colorScheme: nesTheme.colorScheme,
       textTheme: stows.useMinecraftFont.value
-          ? nesTheme.textTheme._withMinecraftFont()
-          : nesTheme.textTheme._withAccessibleFont(),
-      extensions: [
-        ...yaruTheme.extensions.values,
-        ...nesTheme.extensions.values,
-      ],
+          ? baseTextTheme._withMinecraftFont()
+          : baseTextTheme._withAccessibleFont(),
+      customExtensions: [...yaruTheme.extensions.values],
     );
   }
 }
@@ -37,6 +39,7 @@ extension on TextTheme {
         'PressStart2P', // provided by nes_ui
         'Segoe UI',
         'Ubuntu',
+        'Adwaita Sans',
         'packages/yaru/Ubuntu',
         'sans-serif',
       ],
@@ -47,17 +50,13 @@ extension on TextTheme {
     return withFont(
       fontFamily: 'Atkinson Hyperlegible Next',
       fontFamilyFallback: [
-        'AtkinsonHyperlegibleNext',
         'Atkinson Hyperlegible',
-        'AtkinsonHyperlegible',
         'Segoe UI',
+        'Ubuntu',
         'Adwaita Sans',
         'Inter',
-        'system-ui',
         'Noto Sans',
         'Cantarell',
-        'Roboto',
-        'Ubuntu',
         'packages/yaru/Ubuntu',
         'sans-serif',
       ],
