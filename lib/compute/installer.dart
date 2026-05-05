@@ -84,7 +84,7 @@ class Installer extends ChangeNotifier {
 
     final instanceCfg = await instance.instanceCfgFile.readAsLines();
     bool foundManagedPack = false;
-    final targetManagedPack = 'ManagedPack=true';
+    const targetManagedPack = 'ManagedPack=true';
     bool foundManagedPackID = false;
     final targetManagedPackID =
         'ManagedPackID=${SelectModpackStep.modpackUrl.value}';

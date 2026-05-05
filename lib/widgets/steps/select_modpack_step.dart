@@ -65,7 +65,7 @@ class SelectModpackStep extends StatelessWidget {
 
   Widget _unanimatedBuild(BuildContext context, Uri? modpackUrl) {
     if (modpackUrl == null) {
-      return _ChooseModpack(select: _select);
+      return const _ChooseModpack(select: _select);
     } else {
       stepController.markStepComplete(.selectModpack);
       return _Success(modpackUrl, deselect: deselect);
@@ -96,7 +96,7 @@ class _Success extends StatelessWidget {
             NesIconButton(
               onPress: deselect,
               size: Size.square(TextTheme.of(context).bodySmall?.fontSize ?? 8),
-              primaryColor: Color(0xFF444444),
+              primaryColor: const Color(0xFF444444),
               icon: NesIcons.edit,
             ),
           ],
@@ -170,7 +170,7 @@ class _ChooseModpackState extends State<_ChooseModpack> {
           const SizedBox(height: 8),
           TextFormField(
             controller: _urlFieldController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Modpack URL',
               hintText: 'https://example.com/modpack.zip',
             ),
@@ -189,7 +189,7 @@ class _ChooseModpackState extends State<_ChooseModpack> {
                   trySelect(context, _urlFieldController.text);
                 }
               },
-              child: Text('Download'),
+              child: const Text('Download'),
             ),
           ),
         ],

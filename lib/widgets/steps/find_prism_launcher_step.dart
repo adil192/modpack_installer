@@ -11,7 +11,7 @@ class FindPrismLauncherStep extends StatelessWidget {
     final prismDir = stows.prismDir.value;
 
     if (prismDir == null) {
-      return _Error();
+      return const _Error();
     } else {
       stepController.markStepComplete(.findPrismLauncher);
       return _Success(prismDir);

@@ -97,7 +97,7 @@ class _DownloadStepState extends State<DownloadStep> {
         ),
         if (!finishedDownloading && status.isFinalState) ...[
           const SizedBox(height: 8),
-          SizedBox(
+          const SizedBox(
             width: .infinity,
             child: Text(
               'The download failed!\n'

@@ -9,18 +9,18 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
     if (screenSize.width < 480) {
-      return Column(
+      return const Column(
         children: [
           UseMinecraftFontCheckbox(),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           VersionOrUpdateStatus(),
         ],
       );
     } else {
-      return Row(
+      return const Row(
         children: [
           UseMinecraftFontCheckbox(),
-          const Spacer(),
+          Spacer(),
           VersionOrUpdateStatus(),
         ],
       );

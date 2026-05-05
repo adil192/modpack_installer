@@ -80,7 +80,7 @@ PrismInstance getPixelmonInstance() =>
       ..generatePaintingHash();
 
 Future<void> _screenshotApp(WidgetTester tester, String goldenFilePath) async {
-  await tester.pumpWidget(_HomeApp());
+  await tester.pumpWidget(const _HomeApp());
   await tester.loadAssets();
   await tester.pumpAndSettle();
   await expectLater(
@@ -98,7 +98,7 @@ class _HomeApp extends StatelessWidget {
       device: GoldenScreenshotDevices.flathub.device,
       title: "adil192's modpack installer",
       theme: ThemeUtil.lightTheme,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

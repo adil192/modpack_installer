@@ -118,7 +118,7 @@ class _ConstrainedStep extends StatelessWidget {
               width: .infinity,
               child: Padding(padding: const .only(bottom: 32), child: child),
             )
-          : SizedBox(width: .infinity, height: 1),
+          : const SizedBox(width: .infinity, height: 1),
     );
   }
 }

@@ -19,7 +19,7 @@ class UseMinecraftFontCheckbox extends StatelessWidget {
               );
             },
           ),
-          Text('Use Minecraft font'),
+          const Text('Use Minecraft font'),
         ],
       ),
     );

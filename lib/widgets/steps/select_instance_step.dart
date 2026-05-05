@@ -78,7 +78,7 @@ class _Success extends StatelessWidget {
             NesIconButton(
               onPress: deselect,
               size: Size.square(TextTheme.of(context).bodySmall?.fontSize ?? 8),
-              primaryColor: Color(0xFF444444),
+              primaryColor: const Color(0xFF444444),
               icon: NesIcons.edit,
             ),
           ],
@@ -114,7 +114,7 @@ class _Choose extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         if (instances == null)
-          NesPixelRowLoadingIndicator()
+          const NesPixelRowLoadingIndicator()
         else if (instances.isEmpty)
           // TODO: Create an instance here
           Text(

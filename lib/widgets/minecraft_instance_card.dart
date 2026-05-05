@@ -12,7 +12,7 @@ class MinecraftInstanceCard extends StatelessWidget {
     return Tooltip(
       message: instance.instanceDir.path,
       child: DecoratedBox(
-        decoration: BoxDecoration(borderRadius: .all(.circular(16))),
+        decoration: const BoxDecoration(borderRadius: .all(.circular(16))),
         child: NesContainer(
           backgroundColor: Colors.transparent,
           padding: const .all(16),
