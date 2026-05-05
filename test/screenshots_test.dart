@@ -10,12 +10,9 @@ import 'package:installer/home_page.dart';
 import 'package:installer/util/stows.dart';
 import 'package:installer/util/theme_util.dart';
 import 'package:installer/widgets/steps/select_modpack_step.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   group('Screenshots', () {
-    SharedPreferences.setMockInitialValues({});
-
     group('findPrismLauncher', () {
       testGoldens('error', (tester) async {
         stepController.markStepComplete(Step.welcome, delayNext: false);
